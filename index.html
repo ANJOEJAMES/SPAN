@@ -755,8 +755,8 @@
 
             try {
                 const [catsRes, photosRes] = await Promise.all([
-                    fetch(`${window.SPAN_API_URL}/categories/gallery`).catch(() => null),
-                    fetch(`${window.SPAN_API_URL}/gallery`).catch(() => null)
+                    fetch(`${window.SPAN_API_URL}/categories/gallery`, { headers: { 'Bypass-Tunnel-Reminder': 'true' } }).catch(() => null),
+                    fetch(`${window.SPAN_API_URL}/gallery`, { headers: { 'Bypass-Tunnel-Reminder': 'true' } }).catch(() => null)
                 ]);
 
                 const categories = catsRes ? await catsRes.json() : [];

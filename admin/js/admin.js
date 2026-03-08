@@ -31,7 +31,11 @@ document.getElementById('adminEmail').textContent =
     localStorage.getItem('span_admin_email') || 'Admin';
 
 function authHeaders() {
-    return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'Bypass-Tunnel-Reminder': 'true'
+    };
 }
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
@@ -112,7 +116,9 @@ async function loadPosts(search = '') {
 
     try {
         const qs = search ? `?search=${encodeURIComponent(search)}&limit=50` : '?limit=50';
-        const res = await fetch(`${API}/posts${qs}`);
+        const res = await fetch(`${API}/posts${qs}`, {
+            headers: { 'Bypass-Tunnel-Reminder': 'true' }
+        });
         const data = await res.json();
         allPosts = data.data || [];
         renderPostsTable(allPosts);
@@ -180,7 +186,9 @@ function resetForm() {
 
 async function editPost(id) {
     try {
-        const res = await fetch(`${API}/posts/${id}`);
+        const res = await fetch(`${API}/posts/${id}`, {
+            headers: { 'Bypass-Tunnel-Reminder': 'true' }
+        });
         const post = await res.json();
         document.getElementById('editPostId').value = post.id;
         document.getElementById('fTitle').value = post.title;
@@ -310,7 +318,10 @@ async function uploadImage(file) {
     try {
         const res = await fetch(`${API}/upload`, {
             method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Bypass-Tunnel-Reminder': 'true'
+            },
             body: formData
         });
         const data = await res.json();
@@ -397,7 +408,9 @@ async function loadGallery() {
     const grid = document.getElementById('galleryGrid');
     grid.innerHTML = '<div style="color:var(--text-muted);padding:20px;"><i class="fas fa-spinner fa-spin"></i> Loading photos…</div>';
     try {
-        const res = await fetch(`${API}/gallery`);
+        const res = await fetch(`${API}/gallery`, {
+            headers: { 'Bypass-Tunnel-Reminder': 'true' }
+        });
         allGalleryPhotos = await res.json();
         document.getElementById('statTotalPhotos').textContent = allGalleryPhotos.length;
         renderGalleryGrid(allGalleryPhotos);
@@ -496,7 +509,10 @@ document.getElementById('uploadPhotoForm').addEventListener('submit', async e =>
 
         const upRes = await fetch(`${API}/upload`, {
             method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Bypass-Tunnel-Reminder': 'true'
+            },
             body: formData
         });
         const upData = await upRes.json();
@@ -578,8 +594,8 @@ let allGalleryCategories = [];
 async function loadCategories() {
     try {
         const [blogRes, galleryRes] = await Promise.all([
-            fetch(`${API}/categories/blog`),
-            fetch(`${API}/categories/gallery`)
+            fetch(`${API}/categories/blog`, { headers: { 'Bypass-Tunnel-Reminder': 'true' } }),
+            fetch(`${API}/categories/gallery`, { headers: { 'Bypass-Tunnel-Reminder': 'true' } })
         ]);
         allBlogCategories = await blogRes.json();
         allGalleryCategories = await galleryRes.json();
