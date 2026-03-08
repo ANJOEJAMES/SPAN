@@ -196,10 +196,12 @@
         <a href="../index.html" class="back-link">← Back to website</a>
     </div>
 
+    <script src="../js/config.js"></script>
     <script>
-        const API = 'http://localhost:3000/api';
+        // Set SPAN_API_URL in js/config.js
+        const API = window.SPAN_API_URL;
 
-        // Redirect to dashboard if already logged in
+        // Ensure user goes straight to admin if already logged in
         if (localStorage.getItem('span_admin_token')) {
             window.location.href = 'index.html';
         }

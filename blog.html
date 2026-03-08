@@ -502,7 +502,8 @@
                 <nav class="menu-box">
                     <div class="nav-logo"><a href="index.html"><img src="images/nav-logo.png" alt="" title=""></a></div>
                     <div class="menu-outer">
-                        <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
+                        <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
+                    </div>
                     <!--Social Links-->
                     <div class="social-links">
                         <ul class="clearfix">
@@ -745,16 +746,18 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/jquery.fancybox.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/owl.js"></script>
     <script src="js/appear.js"></script>
     <script src="js/wow.js"></script>
     <script src="js/scrollbar.js"></script>
     <script src="js/validate.js"></script>
     <script src="js/paroller.js"></script>
-    <script src="js/custom-script.js"></script>
 
     <script>
-        const API = 'http://localhost:3000/api';
+        // Set SPAN_API_URL in js/config.js
+        const API = window.SPAN_API_URL;
         const POSTS_PER_PAGE = 6;
 
         let currentPage = 1;

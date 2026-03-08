@@ -736,6 +736,8 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/jquery.fancybox.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/owl.js"></script>
     <script src="js/appear.js"></script>
     <script src="js/wow.js"></script>
@@ -753,8 +755,8 @@
 
             try {
                 const [catsRes, photosRes] = await Promise.all([
-                    fetch('http://localhost:3000/api/categories/gallery').catch(() => null),
-                    fetch('http://localhost:3000/api/gallery').catch(() => null)
+                    fetch(`${window.SPAN_API_URL}/categories/gallery`).catch(() => null),
+                    fetch(`${window.SPAN_API_URL}/gallery`).catch(() => null)
                 ]);
 
                 const categories = catsRes ? await catsRes.json() : [];

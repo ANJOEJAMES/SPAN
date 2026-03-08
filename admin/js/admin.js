@@ -3,15 +3,17 @@
  * Handles: auth guard, post listing, create/edit/delete, Cloudinary image upload
  */
 
-const API = 'http://localhost:3000/api';
+// Global API Base (set by ../js/config.js in index.html)
+const API = window.SPAN_API_URL;
+const token = localStorage.getItem('span_admin_token') || '';
 
 // ── Auth guard & 24-hour auto-logout ─────────────────────────────────────────
 const SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 function checkSessionExpiry() {
     const loginTime = parseInt(localStorage.getItem('span_admin_login_time') || '0', 10);
-    const token = localStorage.getItem('span_admin_token');
-    if (!token || !loginTime || (Date.now() - loginTime) >= SESSION_DURATION_MS) {
+    const localToken = localStorage.getItem('span_admin_token');
+    if (!localToken || !loginTime || (Date.now() - loginTime) >= SESSION_DURATION_MS) {
         localStorage.removeItem('span_admin_token');
         localStorage.removeItem('span_admin_email');
         localStorage.removeItem('span_admin_login_time');
@@ -22,10 +24,8 @@ function checkSessionExpiry() {
 // Check immediately on page load
 checkSessionExpiry();
 
-// Re-check every 60 seconds (catches tabs left open past the deadline)
 setInterval(checkSessionExpiry, 60 * 1000);
 
-const token = localStorage.getItem('span_admin_token');
 // Display admin email
 document.getElementById('adminEmail').textContent =
     localStorage.getItem('span_admin_email') || 'Admin';

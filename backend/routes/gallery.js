@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { run, get, all } = require('../db');
+const fs = require('fs');
+const path = require('path');
 const cloudinary = require('../config/cloudinary');
 
 // Inline auth middleware (auth.js does not export a middleware function)
@@ -58,12 +60,26 @@ router.delete('/:id', verifyToken, async (req, res, next) => {
         const photo = await get('SELECT * FROM gallery_photos WHERE id = ?', [req.params.id]);
         if (!photo) return res.status(404).json({ error: 'Photo not found' });
 
-        // Remove from Cloudinary if we have a public_id
+        // Remove from local storage first, then fallback to Cloudinary if needed
         if (photo.public_id) {
+            let deletedLocally = false;
             try {
-                await cloudinary.uploader.destroy(photo.public_id);
+                const filepath = path.join(__dirname, '../../uploads', photo.public_id);
+                if (fs.existsSync(filepath)) {
+                    fs.unlinkSync(filepath);
+                    deletedLocally = true;
+                }
             } catch (e) {
-                console.warn('Cloudinary delete warning:', e.message);
+                console.warn('Local file delete warning:', e.message);
+            }
+
+            if (!deletedLocally && photo.public_id.includes('/')) {
+                // If it wasn't deleted locally and looks like a Cloudinary ID (contains folder path)
+                try {
+                    await cloudinary.uploader.destroy(photo.public_id);
+                } catch (e) {
+                    console.warn('Cloudinary delete warning:', e.message);
+                }
             }
         }
 
