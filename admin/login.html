@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPAN Admin — Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="../images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/admin/css/admin.css">
     <style>
         *,
         *::before,
@@ -174,10 +175,9 @@
 
 <body>
     <div class="login-card">
-        <div class="logo-area">
-            <img src="../images/logo.png" alt="SPAN" onerror="this.style.display='none'">
-            <h1>Admin Panel</h1>
-            <p>Sign in to manage your blog</p>
+        <div class="login-header">
+            <img src="/images/logo.png" alt="SPAN">
+            <h2>Admin Login</h2>
         </div>
 
         <form id="loginForm">
@@ -193,10 +193,12 @@
             <div class="error-msg" id="errorMsg"></div>
         </form>
 
-        <a href="../index.html" class="back-link">← Back to website</a>
+        <div class="back-to-site">
+            <a href="/index.html" class="back-link">← Back to website</a>
+        </div>
     </div>
 
-    <script src="../js/config.js"></script>
+    <script src="/js/config.js"></script>
     <script>
         // Set SPAN_API_URL in js/config.js
         const API = window.SPAN_API_URL;

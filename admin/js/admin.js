@@ -17,7 +17,7 @@ function checkSessionExpiry() {
         localStorage.removeItem('span_admin_token');
         localStorage.removeItem('span_admin_email');
         localStorage.removeItem('span_admin_login_time');
-        window.location.href = 'login.html';
+        window.location.href = '/admin/login.html';
     }
 }
 
@@ -95,7 +95,7 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
     localStorage.removeItem('span_admin_token');
     localStorage.removeItem('span_admin_email');
     localStorage.removeItem('span_admin_login_time');
-    window.location.href = 'login.html';
+    window.location.href = '/admin/login.html';
 });
 
 // ── Sidebar toggle (mobile) ───────────────────────────────────────────────────
@@ -141,7 +141,7 @@ function renderPostsTable(posts) {
       <tr>
         <td><img class="post-thumb" src="${p.image}" alt="" onerror="this.src='https://placehold.co/54x40/1e2330/7a8494?text=img'"></td>
         <td class="post-title-cell">
-          <a href="../blog-single.html?id=${p.id}" target="_blank">${p.title}</a>
+          <a href="/blog-single.html?id=${p.id}" target="_blank">${p.title}</a>
           <div class="post-excerpt">${p.excerpt}</div>
         </td>
         <td><span class="category-badge">${p.category}</span></td>
