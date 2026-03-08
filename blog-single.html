@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title id="pageTitle">Blog Post — SPAN</title>
+    <meta name="description" id="pageDesc"
+        content="Read this article from SPAN on mental health awareness and suicide prevention.">
+    <!-- Stylesheets -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <style>
+        /* ── Blog Single Styles ── */
+        .blog-single-section {
+            padding: 80px 0;
+        }
+
+        /* Loading / Error states */
+        .post-loading,
+        .post-error {
+            text-align: center;
+            padding: 80px 20px;
+            color: #888;
+        }
+
+        .post-loading i {
+            font-size: 36px;
+            color: #e8823a;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .post-error i {
+            font-size: 36px;
+            color: #ccc;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        /* Layout */
+        .blog-single-layout {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .blog-single-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .blog-single-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+        }
+
+        @media(max-width:991px) {
+            .blog-single-layout {
+                flex-direction: column;
+            }
+
+            .blog-single-sidebar {
+                width: 100%;
+            }
+        }
+
+        /* ── Main Post ── */
+        .post-hero-image {
+            width: 100%;
+            max-height: 460px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 32px;
+            display: block;
+        }
+
+        .post-hero-iframe {
+            width: 100%;
+            height: 420px;
+            border-radius: 14px;
+            margin-bottom: 32px;
+            display: block;
+            border: none;
+            background: #000;
+        }
+
+        @media(max-width:600px) {
+            .post-hero-iframe {
+                height: 220px;
+            }
+        }
+
+        .post-category-tag {
+            display: inline-block;
+            background: #e8823a;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 16px;
+        }
+
+        .post-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1a2e;
+            line-height: 1.35;
+            margin-bottom: 20px;
+        }
+
+        @media(max-width:600px) {
+            .post-title {
+                font-size: 22px;
+            }
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 28px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .post-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .post-meta i {
+            color: #e8823a;
+        }
+
+        .post-content {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.9;
+            margin-bottom: 36px;
+        }
+
+        .post-content p {
+            margin-bottom: 18px;
+        }
+
+        .post-content h2,
+        .post-content h3 {
+            color: #1a1a2e;
+            margin: 28px 0 12px;
+            font-weight: 700;
+        }
+
+        .post-content ul,
+        .post-content ol {
+            padding-left: 24px;
+            margin-bottom: 18px;
+        }
+
+        .post-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 16px 0;
+        }
+
+        .post-content blockquote {
+            border-left: 4px solid #e8823a;
+            padding: 12px 20px;
+            background: #fdf6f0;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* ── Like & Share ── */
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 22px 0;
+            border-top: 2px solid #f0f0f0;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 40px;
+        }
+
+        .like-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 2px solid #e8823a;
+            color: #e8823a;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s;
+        }
+
+        .like-btn:hover,
+        .like-btn.liked {
+            background: #e8823a;
+            color: #fff;
+        }
+
+        .like-btn i {
+            font-size: 15px;
+        }
+
+        .share-label {
+            font-size: 13px;
+            color: #888;
+            margin-left: auto;
+        }
+
+        .share-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .share-link {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 14px;
+            text-decoration: none;
+            transition: transform .2s, opacity .2s;
+        }
+
+        .share-link:hover {
+            transform: scale(1.12);
+            opacity: .88;
+        }
+
+        .share-link.facebook {
+            background: #1877f2;
+        }
+
+        .share-link.twitter {
+            background: #1da1f2;
+        }
+
+        .share-link.whatsapp {
+            background: #25d366;
+        }
+
+        .share-link.copy-link {
+            background: #555;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* ── Comments ── */
+        .comments-section {
+            margin-bottom: 48px;
+        }
+
+        .comments-section h3,
+        .comment-form-section h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .comment-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e8823a, #c96b28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .comment-body {
+            flex: 1;
+        }
+
+        .comment-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: #1a1a2e;
+        }
+
+        .comment-date {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 6px;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .no-comments {
+            text-align: center;
+            padding: 30px;
+            color: #aaa;
+            font-size: 15px;
+        }
+
+        /* Comment Form */
+        .comment-form-section {}
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .comment-form-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        @media(max-width:600px) {
+            .comment-form-row {
+                flex-direction: column;
+            }
+        }
+
+        .comment-form input,
+        .comment-form textarea {
+            width: 100%;
+            padding: 13px 18px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color .3s;
+        }
+
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            border-color: #e8823a;
+        }
+
+        .comment-form textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .comment-submit {
+            align-self: flex-start;
+            background: #e8823a;
+            color: #fff;
+            border: none;
+            padding: 13px 32px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comment-submit:hover {
+            background: #c96b28;
+        }
+
+        .comment-submit:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        /* ── Sidebar ── */
+        .sidebar-widget {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .07);
+            padding: 26px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-widget h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .recent-post-item {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f5f5f5;
+            text-decoration: none;
+        }
+
+        .recent-post-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .recent-post-item img {
+            width: 70px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .recent-post-meta {
+            font-size: 11px;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+
+        .recent-post-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            line-height: 1.4;
+            transition: color .2s;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .recent-post-item:hover .recent-post-title {
+            color: #e8823a;
+        }
+
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 11px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .3s;
+            margin-bottom: 30px;
+        }
+
+        .back-to-blog:hover {
+            background: #e8823a;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        <!-- Preloader -->
+        <div class="preloader">
+            <div class="icon"></div>
+        </div>
+
+        <!-- Main Header -->
+        <header class="main-header header-style-one">
+            <!-- Header Top -->
+            <div class="header-top">
+                <div class="auto-container">
+                    <div class="inner clearfix">
+                        <div class="top-left clearfix">
+                            <ul class="info clearfix">
+                                <li><a href="tel:+919446959040"><span class="icon fa fa-phone-alt"></span> Support us
+                                        &nbsp;+91 944 695 9040</a></li>
+                                <li><a href="mailto:span20261@gmail.com"><span class="icon fa fa-envelope-open"></span>
+                                        Email: &nbsp;span20261@gmail.com</a></li>
+                            </ul>
+                        </div>
+                        <div class="top-right clearfix">
+                            <ul class="info clearfix">
+                                <li>
+                                    <div class="change-language">
+                                        <div class="language dropdown"><a class="dropdown-toggle clearfix"
+                                                id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false" href="#"><span class="icon fa fa-globe"></span>Eng
+                                                <span class="arrow flaticon-cheveron-down"></span></a>
+                                            <ul class="dropdown-menu style-one" aria-labelledby="lang-dropdown">
+                                                <li><a href="#">Hindi</a></li>
+                                                <li><a href="#">Malayalam</a></li>
+                                                <li><a href="#">Tamil</a></li>
+                                                <li><a href="#">English</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="social-links clearfix">
+                                <li><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+                                <li><a href="#"><span class="fab fa-linkedin-in"></span></a></li>
+                                <li><a href="#"><span class="fab fa-instagram"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header Upper -->
+            <div class="header-upper">
+                <div class="auto-container">
+                    <div class="inner-container clearfix">
+                        <div class="logo-box">
+                            <div class="logo"><a href="index.html"><img src="images/logo-2.png" alt="SPAN India"></a>
+                            </div>
+                        </div>
+                        <div class="nav-outer clearfix">
+                            <div class="mobile-nav-toggler"><span class="icon flaticon-menu-1"></span></div>
+                            <nav class="main-menu navbar-expand-md navbar-light">
+                                <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
+                                    <ul class="navigation clearfix">
+                                        <li class="dropdown"><a href="index.html">Home</a></li>
+                                        <li class="dropdown"><a href="about.html">About</a></li>
+                                        <li class="current dropdown"><a href="blog.html">Blog</a></li>
+                                        <li><a href="contact.html">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                            <div class="donate-link">
+                                <a href="tel:+919446959040" class="theme-btn btn-style-one"><span class="btn-title">Call
+                                        Now</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Header  -->
+            <div class="sticky-header">
+                <div class="auto-container clearfix">
+                    <div class="logo pull-left">
+                        <a href="index.html"><img src="images/sticky-logo.png" alt=""></a>
+                    </div>
+                    <div class="pull-right">
+                        <nav class="main-menu clearfix"></nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu  -->
+            <div class="mobile-menu">
+                <div class="menu-backdrop"></div>
+                <div class="close-btn"><span class="icon flaticon-cancel"></span></div>
+                <nav class="menu-box">
+                    <div class="nav-logo"><a href="index.html"><img src="images/nav-logo.png" alt=""></a></div>
+                    <div class="menu-outer"></div>
+                    <div class="social-links">
+                        <ul class="clearfix">
+                            <li><a href="#"><span class="fab fa-facebook-square"></span></a></li>
+                            <li><a href="#"><span class="fab fa-instagram"></span></a></li>
+                            <li><a href="#"><span class="fab fa-youtube"></span></a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Page Banner -->
+        <section class="page-banner">
+            <div class="image-layer" style="background-image: url(images/background/bg-page-title-2.jpg);"></div>
+            <div class="auto-container">
+                <h1 id="bannerTitle">Blog Post</h1>
+            </div>
+            <div class="breadcrumb-box">
+                <div class="auto-container">
+                    <ul class="bread-crumb clearfix">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li class="active" id="bannerCrumb">Article</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Single Section -->
+        <section class="blog-single-section">
+            <div class="auto-container">
+
+                <!-- Back to Blog -->
+                <a href="blog.html" class="back-to-blog"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+
+                <!-- Content or loading state -->
+                <div id="postLoadingState" class="post-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading article…</p>
+                </div>
+
+                <div id="postContent" style="display:none;">
+                    <div class="blog-single-layout">
+
+                        <!-- Main Post -->
+                        <div class="blog-single-main">
+                            <img id="postHeroImage" src="" alt="" class="post-hero-image">
+                            <span id="postCategory" class="post-category-tag"></span>
+                            <h1 id="postTitle" class="post-title"></h1>
+                            <div class="post-meta">
+                                <span><i class="fas fa-user"></i> <span id="postAuthor"></span></span>
+                                <span><i class="fas fa-calendar-alt"></i> <span id="postDate"></span></span>
+                                <span><i class="fas fa-heart"></i> <span id="postLikes">0</span> likes</span>
+                                <span><i class="fas fa-comment"></i> <span id="postComments">0</span> comments</span>
+                            </div>
+
+                            <div id="postBody" class="post-content"></div>
+
+                            <!-- Like & Share -->
+                            <div class="post-actions">
+                                <button class="like-btn" id="likeBtn" onclick="likePost()">
+                                    <i class="fas fa-heart"></i> Like &nbsp;<span id="likeCount">0</span>
+                                </button>
+                                <span class="share-label">Share:</span>
+                                <div class="share-links">
+                                    <a id="shareFB" href="#" class="share-link facebook" target="_blank"
+                                        title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                                    <a id="shareTW" href="#" class="share-link twitter" target="_blank"
+                                        title="Share on Twitter/X"><i class="fab fa-x-twitter"></i></a>
+                                    <a id="shareWA" href="#" class="share-link whatsapp" target="_blank"
+                                        title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                                    <button class="share-link copy-link" onclick="copyLink()" title="Copy Link"><i
+                                            class="fas fa-link"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Comments -->
+                            <div class="comments-section">
+                                <h3><i class="fas fa-comments" style="color:#e8823a;margin-right:8px;"></i>Comments
+                                    (<span id="commentCount">0</span>)</h3>
+                                <div id="commentsList"></div>
+                            </div>
+
+                            <!-- Comment Form -->
+                            <div class="comment-form-section">
+                                <h3>Leave a Comment</h3>
+                                <form class="comment-form" id="commentForm">
+                                    <div class="comment-form-row">
+                                        <input type="text" id="commentName" placeholder="Your Name *" required>
+                                        <input type="email" id="commentEmail" placeholder="Your Email *" required>
+                                    </div>
+                                    <textarea id="commentMessage" placeholder="Write your comment here… *"
+                                        required></textarea>
+                                    <button type="submit" class="comment-submit" id="commentSubmit">
+                                        <i class="fas fa-paper-plane"></i> Post Comment
+                                    </button>
+                                </form>
+                                <div id="commentFormMsg" style="margin-top:12px;font-size:14px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <aside class="blog-single-sidebar">
+                            <div class="sidebar-widget">
+                                <h4><i class="fas fa-clock" style="color:#e8823a;margin-right:6px;"></i>Recent Posts
+                                </h4>
+                                <div id="recentPosts">
+                                    <p style="color:#aaa;font-size:13px;">Loading…</p>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-widget">
+                                <h4><i class="fas fa-tags" style="color:#e8823a;margin-right:6px;"></i>Categories</h4>
+                                <div id="sidebarCategories" style="display:flex;flex-wrap:wrap;gap:8px;">
+                                </div>
+                            </div>
+
+                            <div class="sidebar-widget"
+                                style="background: linear-gradient(135deg,#e8823a,#c96b28);color:#fff;">
+                                <h4 style="color:#fff;border-color:rgba(255,255,255,.25);">Need Help?</h4>
+                                <p style="font-size:14px;line-height:1.7;margin-bottom:16px;opacity:.9;">If you or
+                                    someone you know is struggling, please reach out. You are not alone.</p>
+                                <a href="tel:+919446959040"
+                                    style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#e8823a;padding:10px 22px;border-radius:30px;font-weight:700;font-size:13px;text-decoration:none;">
+                                    <i class="fas fa-phone"></i> Call Now
+                                </a>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+
+                <!-- Error state -->
+                <div id="postError" style="display:none;" class="post-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Post Not Found</h3>
+                    <p>This article could not be loaded. It may have been removed or the server is offline.</p>
+                    <a href="blog.html" class="back-to-blog" style="margin-top:20px;display:inline-flex;"><i
+                            class="fas fa-arrow-left"></i> Back to Blog</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <div class="image-layer" style="background-image:url('images/background/footer-bg.jpg')"></div>
+            <div class="auto-container">
+                <div class="widgets-section">
+                    <div class="row clearfix">
+                        <div class="column big-column col-lg-4 col-md-12 col-sm-12">
+                            <div class="footer-widget logo-widget">
+                                <div class="widget-content">
+                                    <div class="footer-logo"><a href="index.html"><img src="images/footer-logo.png"
+                                                alt="" /></a></div>
+                                    <div class="text">SPAN is a collaborative initiative dedicated to saving lives
+                                        through research, awareness, and compassionate action across India.</div>
+                                    <ul class="social-links clearfix">
+                                        <li><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+                                        <li><a href="#"><span class="fab fa-instagram"></span></a></li>
+                                        <li><a href="#"><span class="fab fa-youtube"></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="big-column col-lg-8 col-md-12 col-sm-12">
+                            <div class="row clearfix">
+                                <div class="column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="footer-widget links-widget">
+                                        <div class="widget-content">
+                                            <h3>About Us</h3>
+                                            <ul>
+                                                <li><a href="#">Upcoming Events</a></li>
+                                                <li><a href="#">Latest Causes</a></li>
+                                                <li><a href="blog.html">News Blog</a></li>
+                                                <li><a href="contact.html">Contact Us</a></li>
+                                                <li><a href="about.html">Who We Are</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="footer-widget links-widget">
+                                        <div class="widget-content">
+                                            <h3>Our Partners</h3>
+                                            <ul>
+                                                <li><a href="#">Save Our earth</a></li>
+                                                <li><a href="#">Water Shortages</a></li>
+                                                <li><a href="#">Recycle Better</a></li>
+                                                <li><a href="#">Plant Trees Welfare</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="footer-widget links-widget">
+                                        <div class="widget-content">
+                                            <h3>Explore</h3>
+                                            <ul>
+                                                <li><a href="#">Join Our Programs</a></li>
+                                                <li><a href="#">Make Donation</a></li>
+                                                <li><a href="#">Press Releases</a></li>
+                                                <li><a href="#">Global Programs</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="big-column col-lg-12 col-md-12 col-sm-12">
+                            <div class="row clearfix">
+                                <div class="column col-lg-4 col-md-12 col-sm-12">
+                                    <div class="footer-widget info-widget">
+                                        <div class="widget-content">
+                                            <h3>Contact Us</h3>
+                                            <ul class="contact-info">
+                                                <li>Kochi, kerala, IND 29501</li>
+                                                <li><a href="tel:+919446959040"><span class="fa fa-phone-alt"></span>
+                                                        Phone +91 944 695 9040</a></li>
+                                                <li><a href="mailto:span20261@gmail.com"><span
+                                                            class="fa fa-envelope-open"></span>span20261@gmail.com</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column col-lg-8 col-md-12 col-sm-12">
+                                    <div class="footer-widget info-widget">
+                                        <div class="widget-content">
+                                            <h3>Subscribe Our Newsletter For Updates</h3>
+                                            <div class="newsletter-form">
+                                                <form id="newsletterForm">
+                                                    <div class="form-group clearfix">
+                                                        <input type="email" id="newsletterEmail"
+                                                            placeholder="Enter Your Email" required>
+                                                        <button type="submit"
+                                                            class="theme-btn newsletter-btn">Subscribe</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="auto-container">
+                    <div class="inner">
+                        <div class="copyright">Copyrights (c) 2026 <a href="#">Span</a> All rights reserved. Developed
+                            By <a href="https://abinjozf17.github.io/webproject1/">Abin Joseph</a></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!--End pagewrapper-->
+
+    <div class="scroll-to-top scroll-to-target" data-target="html"><span class="flaticon-up-arrow"></span></div>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery.fancybox.js"></script>
+    <script src="js/owl.js"></script>
+    <script src="js/appear.js"></script>
+    <script src="js/wow.js"></script>
+    <script src="js/scrollbar.js"></script>
+    <script src="js/validate.js"></script>
+    <script src="js/paroller.js"></script>
+    <script src="js/custom-script.js"></script>
+
+    <script>
+        const API = 'http://localhost:3000/api';
+        let POST_ID = null;
+        let currentLikes = 0;
+        let liked = false;
+
+        // ── YouTube helper ──────────────────────────────────────────────────
+        function getYouTubeId(url) {
+            if (!url) return null;
+            const m = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+            return m ? m[1] : null;
+        }
+
+        // ── Get Post ID from URL ────────────────────────────────────────
+        function getPostId() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // ── Format Dates ───────────────────────────────────────────────
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr + 'T00:00:00');
+            if (isNaN(d)) return dateStr;
+            return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
+
+        function formatDateShort(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr + 'T00:00:00');
+            if (isNaN(d)) return dateStr;
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function formatCommentDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            if (isNaN(d)) return dateStr;
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        // ── Render post content (handles both HTML and plain text) ─────
+        function renderContent(content, isHtml) {
+            if (isHtml) return content;
+            // Convert plain text line breaks to paragraphs
+            return content
+                .split(/\n\n+/)
+                .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        // ── Load Post ──────────────────────────────────────────────────
+        async function loadPost() {
+            POST_ID = getPostId();
+            if (!POST_ID) {
+                showError();
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API}/posts/${POST_ID}`);
+                if (!res.ok) throw new Error('Not found');
+                const post = await res.json();
+
+                // Update page title & breadcrumb
+                document.title = `${post.title} — SPAN Blog`;
+                document.getElementById('pageTitle').textContent = `${post.title} — SPAN Blog`;
+                document.getElementById('pageDesc').setAttribute('content', post.excerpt);
+                document.getElementById('bannerTitle').textContent = 'Blog Article';
+                document.getElementById('bannerCrumb').textContent = post.title.slice(0, 40) + (post.title.length > 40 ? '…' : '');
+
+                // Fill post fields
+                // Hero image or YouTube embed
+                const heroImg = document.getElementById('postHeroImage');
+                const ytId = getYouTubeId(post.image);
+                if (ytId) {
+                    // Replace img with an iframe for YouTube videos
+                    const iframe = document.createElement('iframe');
+                    iframe.className = 'post-hero-iframe';
+                    iframe.src = `https://www.youtube.com/embed/${ytId}`;
+                    iframe.title = post.title;
+                    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                    iframe.allowFullscreen = true;
+                    heroImg.replaceWith(iframe);
+                } else {
+                    heroImg.src = post.image;
+                    heroImg.alt = post.title;
+                    heroImg.onerror = () => { heroImg.src = 'https://placehold.co/900x460/f5f5f5/cccccc?text=SPAN+Blog'; };
+                }
+
+                document.getElementById('postCategory').textContent = post.category;
+                document.getElementById('postTitle').textContent = post.title;
+                document.getElementById('postAuthor').textContent = post.author;
+                document.getElementById('postDate').textContent = formatDate(post.date);
+                document.getElementById('postLikes').textContent = (post.likes || 0).toLocaleString();
+                document.getElementById('postComments').textContent = post.comments_count || 0;
+                document.getElementById('postBody').innerHTML = renderContent(post.content, post.is_html);
+
+                currentLikes = post.likes || 0;
+                document.getElementById('likeCount').textContent = currentLikes.toLocaleString();
+
+                // Share links
+                const pageUrl = encodeURIComponent(window.location.href);
+                const pageTitle = encodeURIComponent(post.title);
+                document.getElementById('shareFB').href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+                document.getElementById('shareTW').href = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
+                document.getElementById('shareWA').href = `https://wa.me/?text=${pageTitle}%20${pageUrl}`;
+
+                // Show content
+                document.getElementById('postLoadingState').style.display = 'none';
+                document.getElementById('postContent').style.display = 'block';
+
+                // Load comments & sidebar
+                loadComments();
+                loadRecentPosts();
+                loadSidebarCategories();
+
+            } catch (err) {
+                showError();
+            }
+        }
+
+        function showError() {
+            document.getElementById('postLoadingState').style.display = 'none';
+            document.getElementById('postError').style.display = 'block';
+        }
+
+        // ── Like Post ──────────────────────────────────────────────────
+        async function likePost() {
+            if (liked) return;
+            try {
+                const res = await fetch(`${API}/posts/${POST_ID}/like`, { method: 'POST' });
+                const data = await res.json();
+                if (res.ok) {
+                    currentLikes = data.likes;
+                    document.getElementById('likeCount').textContent = currentLikes.toLocaleString();
+                    document.getElementById('postLikes').textContent = currentLikes.toLocaleString();
+                    document.getElementById('likeBtn').classList.add('liked');
+                    liked = true;
+                }
+            } catch { }
+        }
+
+        // ── Copy Link ──────────────────────────────────────────────────
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const btn = document.querySelector('.share-link.copy-link');
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => { btn.innerHTML = '<i class="fas fa-link"></i>'; }, 2000);
+            });
+        }
+
+        // ── Load Comments ──────────────────────────────────────────────
+        async function loadComments() {
+            try {
+                const res = await fetch(`${API}/posts/${POST_ID}/comments`);
+                const comments = await res.json();
+                renderComments(comments);
+            } catch {
+                document.getElementById('commentsList').innerHTML = '<p class="no-comments">Could not load comments.</p>';
+            }
+        }
+
+        function renderComments(comments) {
+            const list = document.getElementById('commentsList');
+            document.getElementById('commentCount').textContent = comments.length;
+
+            if (!comments.length) {
+                list.innerHTML = '<p class="no-comments">No comments yet. Be the first to comment!</p>';
+                return;
+            }
+
+            list.innerHTML = comments.map(c => `
+            <div class="comment-item">
+                <div class="comment-avatar">${c.name.charAt(0).toUpperCase()}</div>
+                <div class="comment-body">
+                    <div class="comment-name">${escapeHtml(c.name)}</div>
+                    <div class="comment-date">${formatCommentDate(c.created_at)}</div>
+                    <div class="comment-text">${escapeHtml(c.message)}</div>
+                </div>
+            </div>
+        `).join('');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // ── Submit Comment ─────────────────────────────────────────────
+        document.getElementById('commentForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = document.getElementById('commentSubmit');
+            const msgEl = document.getElementById('commentFormMsg');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting…';
+
+            const body = {
+                name: document.getElementById('commentName').value.trim(),
+                email: document.getElementById('commentEmail').value.trim(),
+                message: document.getElementById('commentMessage').value.trim()
+            };
+
+            try {
+                const res = await fetch(`${API}/posts/${POST_ID}/comments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    msgEl.innerHTML = '<span style="color:#16a34a;"><i class="fas fa-check-circle"></i> Comment posted successfully!</span>';
+                    document.getElementById('commentForm').reset();
+                    loadComments();
+                    // Update comment count
+                    const cur = parseInt(document.getElementById('postComments').textContent) || 0;
+                    document.getElementById('postComments').textContent = cur + 1;
+                } else {
+                    msgEl.innerHTML = `<span style="color:#dc2626;"><i class="fas fa-times-circle"></i> ${data.error || 'Failed to post comment.'}</span>`;
+                }
+            } catch {
+                msgEl.innerHTML = '<span style="color:#dc2626;"><i class="fas fa-times-circle"></i> Could not connect to server.</span>';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Post Comment';
+                setTimeout(() => { msgEl.innerHTML = ''; }, 5000);
+            }
+        });
+
+        // ── Sidebar: Recent Posts ──────────────────────────────────────
+        async function loadRecentPosts() {
+            try {
+                const res = await fetch(`${API}/posts?limit=5&page=1`);
+                const data = await res.json();
+                const posts = (data.data || []).filter(p => String(p.id) !== String(POST_ID)).slice(0, 4);
+                const container = document.getElementById('recentPosts');
+                if (!posts.length) { container.innerHTML = '<p style="color:#aaa;font-size:13px;">No other posts yet.</p>'; return; }
+                container.innerHTML = posts.map(p => `
+                <a href="blog-single.html?id=${p.id}" class="recent-post-item">
+                    <img src="${p.image}" alt="${p.title}" onerror="this.src='https://placehold.co/70x55/f5f5f5/cccccc?text=+'">
+                    <div>
+                        <div class="recent-post-meta"><i class="fas fa-calendar-alt" style="color:#e8823a;margin-right:4px;"></i>${formatDateShort(p.date)}</div>
+                        <div class="recent-post-title">${p.title}</div>
+                    </div>
+                </a>
+            `).join('');
+            } catch { }
+        }
+
+        // ── Sidebar: Categories ────────────────────────────────────────
+        async function loadSidebarCategories() {
+            const cats = ['Health & Medical', 'Social Welfare', 'International Aid', 'Disability', 'Poor Education', 'General'];
+            const container = document.getElementById('sidebarCategories');
+            container.innerHTML = cats.map(c => `
+            <a href="blog.html" onclick="sessionStorage.setItem('blogCat','${c}')"
+               style="background:#f5f5f5;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;color:#555;text-decoration:none;transition:all .2s;"
+               onmouseover="this.style.background='#e8823a';this.style.color='#fff'"
+               onmouseout="this.style.background='#f5f5f5';this.style.color='#555'">${c}</a>
+        `).join('');
+        }
+
+        // ── Newsletter ─────────────────────────────────────────────────
+        document.getElementById('newsletterForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const email = document.getElementById('newsletterEmail').value.trim();
+            try {
+                const res = await fetch(`${API}/newsletter/subscribe`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await res.json();
+                alert(res.ok ? 'Thank you for subscribing!' : (data.error || 'Subscription failed.'));
+                if (res.ok) document.getElementById('newsletterEmail').value = '';
+            } catch {
+                alert('Could not connect to server.');
+            }
+        });
+
+        // ── Init ───────────────────────────────────────────────────────
+        loadPost();
+    </script>
+
+</body>
+
+</html>

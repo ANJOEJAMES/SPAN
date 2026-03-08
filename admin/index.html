@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPAN Admin — Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="../images/favicon.png">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="../images/logo.png" alt="SPAN" onerror="this.style.display='none'">
+            <span>Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+
+            <!-- Blog group -->
+            <div class="nav-group" id="grp-blog">
+                <button class="nav-group-header" onclick="toggleGroup('grp-blog')">
+                    <span><i class="fas fa-newspaper"></i> Blog</span>
+                    <i class="fas fa-chevron-down nav-chevron"></i>
+                </button>
+                <div class="nav-group-body">
+                    <a href="#" class="nav-item nav-sub active" data-section="posts">
+                        <i class="fas fa-list"></i> All Posts
+                    </a>
+                    <a href="#" class="nav-item nav-sub" data-section="new-post">
+                        <i class="fas fa-plus-circle"></i> New Post
+                    </a>
+                    <a href="#" class="nav-item nav-sub" data-section="categories">
+                        <i class="fas fa-tags"></i> Categories
+                    </a>
+                    <a href="../blog.html" target="_blank" class="nav-item nav-sub">
+                        <i class="fas fa-external-link-alt"></i> View Blog
+                    </a>
+                </div>
+            </div>
+
+            <!-- Gallery group -->
+            <div class="nav-group" id="grp-gallery">
+                <button class="nav-group-header" onclick="toggleGroup('grp-gallery')">
+                    <span><i class="fas fa-images"></i> Gallery</span>
+                    <i class="fas fa-chevron-down nav-chevron"></i>
+                </button>
+                <div class="nav-group-body">
+                    <a href="#" class="nav-item nav-sub" data-section="gallery">
+                        <i class="fas fa-th"></i> All Photos
+                    </a>
+                    <a href="#" class="nav-item nav-sub" data-section="upload-photo">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Photo
+                    </a>
+                    <a href="../index.html" target="_blank" class="nav-item nav-sub">
+                        <i class="fas fa-external-link-alt"></i> View Gallery
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-info">
+                <i class="fas fa-user-shield"></i>
+                <span id="adminEmail">Admin</span>
+            </div>
+            <button class="btn-logout" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <h2 id="pageTitle">Blog Posts</h2>
+            </div>
+            <div class="topbar-right">
+                <span class="status-badge" id="statusBadge">
+                    <i class="fas fa-circle"></i> Live
+                </span>
+            </div>
+        </header>
+
+        <!-- Toast notification -->
+        <div class="toast" id="toast"></div>
+
+        <!-- ── SECTION: Posts List ─────────────────────────────── -->
+        <section id="section-posts" class="section active">
+            <div class="section-header">
+                <div class="search-row">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search posts…">
+                    </div>
+                    <button class="btn btn-primary" onclick="showSection('new-post')">
+                        <i class="fas fa-plus"></i> New Post
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-row" id="statsRow">
+                <div class="stat-card"><span class="stat-num" id="statTotal">—</span><span class="stat-label">Total
+                        Posts</span></div>
+                <div class="stat-card"><span class="stat-num" id="statLikes">—</span><span class="stat-label">Total
+                        Likes</span></div>
+                <div class="stat-card"><span class="stat-num" id="statComments">—</span><span class="stat-label">Total
+                        Comments</span></div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="posts-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Likes</th>
+                            <th>Comments</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="postsTableBody">
+                        <tr>
+                            <td colspan="7" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading posts…
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ── SECTION: New / Edit Post ───────────────────────── -->
+        <section id="section-new-post" class="section">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h3 id="formTitle">Create New Post</h3>
+                    <button class="btn btn-ghost" onclick="showSection('posts')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+
+                <form id="postForm">
+                    <input type="hidden" id="editPostId">
+
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label>Title <span class="req">*</span></label>
+                            <input type="text" id="fTitle" placeholder="Enter post title…" required>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Excerpt / Summary <span class="req">*</span></label>
+                            <textarea id="fExcerpt" rows="2"
+                                placeholder="Short one-sentence summary shown on the blog listing…" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Author</label>
+                            <input type="text" id="fAuthor" placeholder="SPAN Team">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="fDate">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="fCategory">
+                                <option value="">Loading categories...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Featured Image <span class="req">*</span></label>
+                            <div class="image-upload-box" id="imageUploadBox">
+                                <div class="upload-prompt" id="uploadPrompt">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Click or drag an image here</span>
+                                    <small>JPEG, PNG, WEBP — max 10 MB</small>
+                                </div>
+                                <img class="image-preview" id="imagePreview" src="" alt="">
+                                <input type="file" id="imageFile" accept="image/*" hidden>
+                                <div class="upload-progress" id="uploadProgress" style="display:none">
+                                    <i class="fas fa-spinner fa-spin"></i> Uploading to Cloudinary…
+                                </div>
+                            </div>
+                            <input type="text" id="fImage" placeholder="Or paste an image URL directly"
+                                style="margin-top:8px">
+                        </div>
+
+                        <div class="form-group full">
+                            <label style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>Content <span class="req">*</span></span>
+                                <label
+                                    style="display:flex; align-items:center; gap:8px; cursor:pointer; text-transform:none; letter-spacing:0; color:var(--text);">
+                                    <span>Write as Raw HTML</span>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="fIsHtml">
+                                        <span class="toggle-slider"></span>
+                                    </div>
+                                </label>
+                            </label>
+                            <textarea id="fContent" rows="12"
+                                placeholder="Write your post content here… (Line breaks will be preserved automatically)"
+                                required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-ghost" onclick="showSection('posts')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="fas fa-save"></i> Save Post
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- ── SECTION: Gallery List ──────────────────────── -->
+        <section id="section-gallery" class="section">
+            <div class="section-header">
+                <div class="search-row">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="gallerySearchInput" placeholder="Search photos…">
+                    </div>
+                    <button class="btn btn-primary" onclick="showSection('upload-photo')">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Photo
+                    </button>
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+                    <button class="btn btn-ghost" id="gf-all" onclick="filterGallery('')"
+                        style="border-radius:20px;">All</button>
+                    <button class="btn btn-ghost" id="gf-medical" onclick="filterGallery('medical')"
+                        style="border-radius:20px;">Voices of Hope</button>
+                    <button class="btn btn-ghost" id="gf-education" onclick="filterGallery('education')"
+                        style="border-radius:20px;">Safe Spaces</button>
+                    <button class="btn btn-ghost" id="gf-animal" onclick="filterGallery('animal')"
+                        style="border-radius:20px;">Cultural Resilience</button>
+                    <button class="btn btn-ghost" id="gf-shelter" onclick="filterGallery('shelter')"
+                        style="border-radius:20px;">Educational Hub</button>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-card"><span class="stat-num" id="statTotalPhotos">—</span><span
+                        class="stat-label">Total Photos</span></div>
+            </div>
+            <div id="galleryGrid" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:8px;"></div>
+        </section>
+
+        <!-- ── SECTION: Upload Photo ─────────────────────── -->
+        <section id="section-upload-photo" class="section">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h3>Upload Gallery Photo</h3>
+                    <button class="btn btn-ghost" onclick="showSection('gallery')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+
+                <form id="uploadPhotoForm">
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label>Photo <span class="req">*</span></label>
+                            <input type="file" id="gPhotoFile" accept="image/jpeg,image/png,image/webp,image/gif"
+                                required>
+                            <img id="gPhotoPreview" src="" alt=""
+                                style="margin-top:10px;max-height:200px;border-radius:10px;display:none;object-fit:cover;">
+                        </div>
+                        <div class="form-group full">
+                            <label>Caption / Title</label>
+                            <input type="text" id="gPhotoTitle" placeholder="e.g. Workshop at Kerala, 2025">
+                        </div>
+                        <div class="form-group full">
+                            <label>Category Tag <span class="req">*</span></label>
+                            <select id="gPhotoTag" required>
+                                <option value="">Loading categories...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="uploadProgress" style="display:none;margin-bottom:16px;">
+                        <div style="background:#e8e8e8;border-radius:8px;overflow:hidden;height:8px;">
+                            <div id="uploadProgressBar"
+                                style="height:100%;background:#e8823a;width:0%;transition:width .3s;"></div>
+                        </div>
+                        <p id="uploadStatus" style="font-size:13px;color:#888;margin-top:6px;">Uploading…</p>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-ghost" onclick="showSection('gallery')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="uploadPhotoBtn">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload &amp; Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ── SECTION: Categories Management ─────────────────────── -->
+        <section id="section-categories" class="section">
+            <div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+                <!-- Blog Categories -->
+                <div class="form-card" style="flex:1; min-width:300px;">
+                    <div class="form-card-header">
+                        <h3>Blog Categories</h3>
+                    </div>
+                    <form id="addBlogCatForm" style="display:flex; gap:10px; margin-bottom:20px;">
+                        <input type="text" id="newBlogCatName" placeholder="New Category Name..." required
+                            style="flex:1;">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th style="width:80px;text-align:center;">Uses</th>
+                                <th style="width:60px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="blogCategoriesTableBody">
+                            <tr>
+                                <td colspan="3" class="loading-row">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Gallery Categories -->
+                <div class="form-card" style="flex:1; min-width:300px;">
+                    <div class="form-card-header">
+                        <h3>Gallery Categories</h3>
+                    </div>
+                    <form id="addGalleryCatForm" style="display:flex; gap:10px; margin-bottom:20px;">
+                        <input type="text" id="newGalleryCatName" placeholder="New Category Name..." required
+                            style="flex:1;">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name / Slug</th>
+                                <th style="width:80px;text-align:center;">Uses</th>
+                                <th style="width:60px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="galleryCategoriesTableBody">
+                            <tr>
+                                <td colspan="3" class="loading-row">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Delete Confirm Modal (Gallery Photo) -->
+    <div class="modal-overlay" id="deletePhotoModal">
+        <div class="modal">
+            <div class="modal-icon"><i class="fas fa-image"></i></div>
+            <h3>Delete Photo?</h3>
+            <p>This will permanently delete the photo from the gallery and Cloudinary. This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeDeletePhotoModal()">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeletePhotoBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirm Modal (Posts) -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-icon"><i class="fas fa-trash-alt"></i></div>
+            <h3>Delete Post?</h3>
+            <p>This will permanently delete the post and all its comments. This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
