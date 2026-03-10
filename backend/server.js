@@ -48,11 +48,20 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// ── Start ─────────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-    console.log(`\n🚀 SPAN Blog API running at http://localhost:${PORT}`);
-    console.log(`   Blog:        http://localhost:${PORT}/blog.html`);
-    console.log(`   Blog Post:   http://localhost:${PORT}/blog-single.html?id=1`);
-    console.log(`   Upload API:  POST http://localhost:${PORT}/api/upload`);
-    console.log(`   API Docs:    http://localhost:${PORT}/api/posts\n`);
-});
+// ── Start: initialise DB first, then listen ───────────────────────────────────
+const { initDB } = require('./db');
+
+initDB()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`\n🚀 SPAN Blog API running at http://localhost:${PORT}`);
+            console.log(`   Blog:        http://localhost:${PORT}/blog.html`);
+            console.log(`   Blog Post:   http://localhost:${PORT}/blog-single.html?id=1`);
+            console.log(`   Upload API:  POST http://localhost:${PORT}/api/upload`);
+            console.log(`   API Docs:    http://localhost:${PORT}/api/posts\n`);
+        });
+    })
+    .catch(err => {
+        console.error('❌ Failed to initialise database:', err.message);
+        process.exit(1);
+    });
