@@ -38,8 +38,7 @@
                 const res = await fetch(`${API}/newsletter/subscribe`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Bypass-Tunnel-Reminder': 'true'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ email })
                 });

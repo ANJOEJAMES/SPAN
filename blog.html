@@ -914,26 +914,7 @@
             });
         });
 
-        // ── Newsletter ──────────────────────────────────────────────────
-        document.getElementById('newsletterForm').addEventListener('submit', async e => {
-            e.preventDefault();
-            const email = document.getElementById('newsletterEmail').value.trim();
-            try {
-                const res = await fetch(`${API}/newsletter/subscribe`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Bypass-Tunnel-Reminder': 'true'
-                    },
-                    body: JSON.stringify({ email })
-                });
-                const data = await res.json();
-                alert(res.ok ? 'Thank you for subscribing!' : (data.error || 'Subscription failed.'));
-                if (res.ok) document.getElementById('newsletterEmail').value = '';
-            } catch {
-                alert('Could not connect to server.');
-            }
-        });
+
 
         // ── Init ────────────────────────────────────────────────────────
         fetchPosts();

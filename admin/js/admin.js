@@ -11,13 +11,22 @@ const token = localStorage.getItem('span_admin_token') || '';
 const SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 function checkSessionExpiry() {
-    const loginTime = parseInt(localStorage.getItem('span_admin_login_time') || '0', 10);
+    const loginTimeRaw = localStorage.getItem('span_admin_login_time');
     const localToken = localStorage.getItem('span_admin_token');
-    if (!localToken || !loginTime || (Date.now() - loginTime) >= SESSION_DURATION_MS) {
-        localStorage.removeItem('span_admin_token');
-        localStorage.removeItem('span_admin_email');
-        localStorage.removeItem('span_admin_login_time');
+
+    if (!localToken) {
         window.location.href = '/admin/login.html';
+        return;
+    }
+
+    if (loginTimeRaw) {
+        const loginTime = parseInt(loginTimeRaw, 10);
+        if ((Date.now() - loginTime) >= SESSION_DURATION_MS) {
+            localStorage.removeItem('span_admin_token');
+            localStorage.removeItem('span_admin_email');
+            localStorage.removeItem('span_admin_login_time');
+            window.location.href = '/admin/login.html';
+        }
     }
 }
 
