@@ -200,16 +200,14 @@
 
     <script src="/js/config.js"></script>
     <script>
-        // Set SPAN_API_URL in js/config.js
         const API = window.SPAN_API_URL;
 
-        // Ensure user goes straight to admin if already logged in
+        // Redirect if already logged in
         if (localStorage.getItem('span_admin_token')) {
             window.location.href = 'index.html';
         }
 
-        // ── Pre-warm: ping backend on load to detect tunnel wall early ──
-        const tunnelBaseUrl = API.replace('/api', '');
+        // ── Pre-warm: ping the Render backend on load ──────────────────────
         const statusEl = document.createElement('div');
         statusEl.style.cssText = 'text-align:center;font-size:12px;margin-top:14px;color:rgba(255,255,255,.35);';
         document.getElementById('loginForm').after(statusEl);
@@ -217,21 +215,15 @@
         async function checkBackend() {
             try {
                 statusEl.textContent = '⏳ Checking server connection…';
-                const res = await fetch(`${API}/health`, {
-                    headers: { 'Bypass-Tunnel-Reminder': 'true' }
-                });
-                const contentType = res.headers.get('content-type') || '';
-                if (contentType.includes('text/html')) {
-                    // LocalTunnel is showing its verification page — need a manual visit
-                    statusEl.innerHTML = `⚠️ Tunnel needs unlocking — <a href="${tunnelBaseUrl}" target="_blank" style="color:#f39200;text-decoration:underline;" onclick="setTimeout(checkBackend,4000)">click here to unlock</a>, then try again.`;
-                } else if (res.ok) {
+                const res = await fetch(`${API}/health`);
+                if (res.ok) {
                     statusEl.textContent = '✅ Server connected';
                     setTimeout(() => { statusEl.textContent = ''; }, 3000);
                 } else {
                     statusEl.textContent = '⚠️ Server reachable but returned an error.';
                 }
             } catch {
-                statusEl.innerHTML = `❌ Cannot reach server. Is the backend running?<br><small style="opacity:.6">Make sure <code>node server.js</code> and <code>localtunnel</code> are both active.</small>`;
+                statusEl.innerHTML = `❌ Cannot reach server. The Render backend may be starting up — <a href="#" onclick="checkBackend();return false;" style="color:#f39200;">retry</a>.`;
             }
         }
         checkBackend();
@@ -250,23 +242,9 @@
             try {
                 const res = await fetch(`${API}/auth/login`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Bypass-Tunnel-Reminder': 'true'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
-
-                const contentType = res.headers.get('content-type') || '';
-                // Detect LocalTunnel verification wall
-                if (contentType.includes('text/html')) {
-                    errEl.innerHTML = `⚠️ The tunnel needs to be unlocked first.<br>
-                        <a href="${tunnelBaseUrl}" target="_blank" style="color:#fca5a5;text-decoration:underline;"
-                           onclick="setTimeout(checkBackend,4000)">Click here to open & unlock the tunnel</a>
-                        , then try signing in again.`;
-                    errEl.style.display = 'block';
-                    return;
-                }
 
                 const data = await res.json();
                 if (!res.ok) {
@@ -279,8 +257,7 @@
                     window.location.href = 'index.html';
                 }
             } catch {
-                errEl.innerHTML = `Cannot connect to server.<br>
-                    <small>Make sure <b>node server.js</b> is running and the LocalTunnel is active.</small>`;
+                errEl.textContent = 'Cannot connect to the server. Please try again shortly.';
                 errEl.style.display = 'block';
                 checkBackend();
             } finally {
