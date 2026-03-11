@@ -2,6 +2,19 @@ const express = require('express');
 const router = express.Router();
 const { run, get, all } = require('../db');
 const requireAuth = require('../middleware/auth');
+const cloudinary = require('../config/cloudinary');
+
+function extractPublicIdFromUrl(url) {
+    if (!url || typeof url !== 'string') return null;
+    const cloudinaryMatch = url.match(/res\.cloudinary\.com\/[^/]+\/image\/upload\/(?:v\d+\/)?(.+)$/);
+    if (cloudinaryMatch && cloudinaryMatch[1]) {
+        let publicId = cloudinaryMatch[1];
+        publicId = publicId.replace(/^[^/]+\//, '');
+        publicId = publicId.replace(/\.[^.]+$/, '');
+        return publicId;
+    }
+    return null;
+}
 
 // GET /api/posts — list posts with optional search, category, pagination
 router.get('/', async (req, res, next) => {
@@ -96,8 +109,20 @@ router.put('/:id', requireAuth, async (req, res, next) => {
 // DELETE /api/posts/:id — delete a post and its comments
 router.delete('/:id', requireAuth, async (req, res, next) => {
     try {
-        const post = await get('SELECT id FROM posts WHERE id = ?', [req.params.id]);
+        const post = await get('SELECT id, image FROM posts WHERE id = ?', [req.params.id]);
         if (!post) return res.status(404).json({ error: 'Post not found' });
+
+        if (post.image) {
+            const publicId = extractPublicIdFromUrl(post.image);
+            if (publicId) {
+                try {
+                    await cloudinary.uploader.destroy(publicId);
+                } catch (e) {
+                    console.warn('Cloudinary delete warning:', e.message);
+                }
+            }
+        }
+
         await run('DELETE FROM comments WHERE post_id = ?', [req.params.id]);
         await run('DELETE FROM posts WHERE id = ?', [req.params.id]);
         res.json({ message: 'Post deleted successfully' });
