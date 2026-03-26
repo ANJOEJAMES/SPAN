@@ -6,9 +6,10 @@ const cloudinary = require('../config/cloudinary');
 
 function extractPublicIdFromUrl(url) {
     if (!url || typeof url !== 'string') return null;
-    const cloudinaryMatch = url.match(/res\.cloudinary\.com\/[^/]+\/image\/upload\/(?:v\d+\/)?(.+)$/);
-    if (cloudinaryMatch && cloudinaryMatch[1]) {
-        let publicId = cloudinaryMatch[1];
+    
+    const match = url.match(/res\.cloudinary\.com\/[^/]+\/image\/upload\/(?:v\d+\/)?(.+)$/);
+    if (match && match[1]) {
+        let publicId = match[1];
         publicId = publicId.replace(/^[^/]+\//, '');
         publicId = publicId.replace(/\.[^.]+$/, '');
         return publicId;
@@ -108,15 +109,22 @@ router.put('/:id', requireAuth, async (req, res, next) => {
 
 // DELETE /api/posts/:id — delete a post and its comments
 router.delete('/:id', requireAuth, async (req, res, next) => {
+    let cloudinaryDeleted = false;
+    let publicId = null;
     try {
         const post = await get('SELECT id, image FROM posts WHERE id = ?', [req.params.id]);
         if (!post) return res.status(404).json({ error: 'Post not found' });
 
-        if (post.image) {
-            const publicId = extractPublicIdFromUrl(post.image);
+        console.log('Deleting post image:', post.image);
+
+        if (post.image && post.image.includes('cloudinary')) {
+            publicId = extractPublicIdFromUrl(post.image);
+            console.log('Extracted public_id:', publicId);
             if (publicId) {
                 try {
                     await cloudinary.uploader.destroy(publicId);
+                    cloudinaryDeleted = true;
+                    console.log('Cloudinary image deleted successfully');
                 } catch (e) {
                     console.warn('Cloudinary delete warning:', e.message);
                 }
@@ -125,7 +133,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 
         await run('DELETE FROM comments WHERE post_id = ?', [req.params.id]);
         await run('DELETE FROM posts WHERE id = ?', [req.params.id]);
-        res.json({ message: 'Post deleted successfully' });
+        res.json({ message: 'Post deleted successfully', cloudinaryDeleted, publicId });
     } catch (err) { next(err); }
 });
 

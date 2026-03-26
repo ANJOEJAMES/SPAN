@@ -375,7 +375,11 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', async () =
         });
         const data = await res.json();
         if (res.ok) {
-            showToast('Post deleted successfully');
+            console.log('Delete response:', data);
+            const msg = data.cloudinaryDeleted 
+                ? 'Post and image deleted from Cloudinary' 
+                : 'Post deleted';
+            showToast(msg);
             closeDeleteModal();
             loadPosts();
         } else {
