@@ -8760,7 +8760,8 @@ img.lazy-image.loaded{
 	margin: 0 auto;
 	background: #ffffff;
 	border-radius: 5px;
-	-webkit-box-shadow:0px 0px 40px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.25);
+	box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.25);
 }
 
 .about-section-four .image-box .caption-box h3{
@@ -9299,7 +9300,8 @@ img.lazy-image.loaded{
 	padding: 30px 20px;
 	background: #ffffff;
 	border-radius: 5px;
-	-webkit-box-shadow:0px 0px 40px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.25);
+	box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.25);
 }
 
 .activity-block .caption-box h3{
