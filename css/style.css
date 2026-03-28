@@ -4019,24 +4019,6 @@ img.lazy-image.loaded{
 	max-width: 100%;
 }
 
-/* .contact-section .image-column .icon-1{
-	position: absolute;
-	left: -10px;
-	top: 30px;
-	width: 140px;
-	height: 148px;
-	background:url(../images/icons/theme-icon-2.jpg) center center no-repeat;
-}
-
-.contact-section .image-column .icon-2{
-	position: absolute;
-	right: 10px;
-	bottom: 200px;
-	width: 92px;
-	height: 97px;
-	background:url(../images/icons/theme-icon-3.jpg) center center no-repeat;
-} */
-
 .contact-section .form-column{
 	position: relative;
 	margin-bottom: 20px;
