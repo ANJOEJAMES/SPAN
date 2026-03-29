@@ -10089,3 +10089,28 @@ img.lazy-image.loaded{
 	background: #2f3753;
 }
 
+/* Disable text selection to prevent copying */
+* {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+/* Allow selection of input fields and textarea for usability */
+input, textarea, select {
+    -webkit-user-select: auto; /* Safari */
+    -moz-user-select: auto; /* Firefox */
+    -ms-user-select: auto; /* IE10+/Edge */
+    user-select: auto; /* Standard */
+}
+
+/* Disable image dragging */
+img, svg {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
