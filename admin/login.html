@@ -52,18 +52,18 @@
             box-shadow: 0 32px 64px rgba(0, 0, 0, .4);
         }
 
-        .logo-area {
+        .login-header {
             text-align: center;
             margin-bottom: 36px;
         }
 
-        .logo-area img {
+        .login-header img {
             height: 56px;
             object-fit: contain;
             filter: brightness(1.1);
         }
 
-        .logo-area h1 {
+        .login-header h2 {
             margin-top: 14px;
             font-size: 22px;
             font-weight: 700;
@@ -71,7 +71,7 @@
             letter-spacing: -.5px;
         }
 
-        .logo-area p {
+        .login-header p {
             margin-top: 4px;
             font-size: 13px;
             color: rgba(255, 255, 255, .45);
@@ -92,7 +92,8 @@
         }
 
         input[type="email"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="text"] {
             width: 100%;
             padding: 13px 16px;
             background: rgba(255, 255, 255, .06);
@@ -103,6 +104,41 @@
             font-family: 'Inter', sans-serif;
             outline: none;
             transition: border-color .2s, background .2s;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-wrapper input {
+            padding-right: 45px; /* Space for the toggle button */
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, .4);
+            font-size: 18px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            transition: color .2s;
+        }
+
+        .toggle-password:hover {
+            color: rgba(255, 255, 255, .7);
+        }
+
+        .toggle-password:active {
+            transform: scale(0.95);
         }
 
         input:focus {
@@ -187,7 +223,13 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                <div class="password-input-wrapper">
+                    <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="toggle-password" id="togglePassword">
+                        <span class="show-icon">👁</span>
+                        <span class="hide-icon">👁‍🗨</span>
+                    </button>
+                </div>
             </div>
             <button type="submit" class="btn-login" id="loginBtn">Sign In</button>
             <div class="error-msg" id="errorMsg"></div>
@@ -227,6 +269,30 @@
             }
         }
         checkBackend();
+
+        // Toggle password visibility
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        if (togglePasswordBtn && passwordInput) {
+            // Set initial state (password hidden)
+            const showIcon = togglePasswordBtn.querySelector('.show-icon');
+            const hideIcon = togglePasswordBtn.querySelector('.hide-icon');
+            showIcon.style.display = 'inline';
+            hideIcon.style.display = 'none';
+
+            togglePasswordBtn.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                // Update icon
+                if (type === 'password') {
+                    showIcon.style.display = 'inline';
+                    hideIcon.style.display = 'none';
+                } else {
+                    showIcon.style.display = 'none';
+                    hideIcon.style.display = 'inline';
+                }
+            });
+        }
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
