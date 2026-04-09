@@ -33,9 +33,52 @@
         .footer-logo .logo-caption { border-left-color: rgba(255,255,255,0.3); }
         .footer-logo .logo-caption span { color: #ffffff; }
         .footer-logo .logo-caption .cap-line1, .footer-logo .logo-caption .cap-line2 { font-size: 14px; }
-        @media (max-width: 480px) { .logo-caption { display: none; } }
-        @media (max-width: 767px) { .logo-caption .cap-line1, .logo-caption .cap-line2 { font-size: 11px; } .logo-with-caption img { max-height: 60px; } .logo-caption { padding-left: 8px; } }
-        @media (max-width: 991px) and (min-width: 768px) { .logo-caption .cap-line1, .logo-caption .cap-line2 { font-size: 13px; } }
+        /* Responsive — caption visible at ALL sizes */
+        @media (max-width: 360px) {
+            .logo-with-caption { gap: 7px; }
+            .logo-with-caption img { max-height: 40px; }
+            .logo-caption { padding-left: 6px; border-left-width: 2px; }
+            .logo-caption .cap-line1,
+            .logo-caption .cap-line2 { font-size: 8px; letter-spacing: 0; }
+            .footer-logo .logo-caption .cap-line1,
+            .footer-logo .logo-caption .cap-line2 { font-size: 8px; }
+        }
+        @media (max-width: 480px) and (min-width: 361px) {
+            .logo-with-caption { gap: 8px; }
+            .logo-with-caption img { max-height: 48px; }
+            .logo-caption { padding-left: 7px; border-left-width: 2px; }
+            .logo-caption .cap-line1,
+            .logo-caption .cap-line2 { font-size: 9px; letter-spacing: 0; }
+            .footer-logo .logo-caption .cap-line1,
+            .footer-logo .logo-caption .cap-line2 { font-size: 9px; }
+        }
+        @media (max-width: 767px) and (min-width: 481px) {
+            .logo-with-caption { gap: 9px; }
+            .logo-with-caption img { max-height: 58px; }
+            .logo-caption { padding-left: 8px; }
+            .logo-caption .cap-line1,
+            .logo-caption .cap-line2 { font-size: 11px; }
+            .footer-logo .logo-caption .cap-line1,
+            .footer-logo .logo-caption .cap-line2 { font-size: 11px; }
+        }
+        @media (max-width: 991px) and (min-width: 768px) {
+            .logo-caption .cap-line1, .logo-caption .cap-line2 { font-size: 13px; }
+        }
+
+        /* Mobile Sidebar Logo (stacked below) */
+        .nav-logo .logo-with-caption {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .nav-logo .logo-caption {
+            border-left: none;
+            padding-left: 0;
+            text-align: left;
+        }
+        .nav-logo .logo-caption span {
+            color: #ffffff;
+        }
 
         /* ── Blog Single Styles ── */
         .blog-single-section {
@@ -601,7 +644,15 @@
                 <div class="menu-backdrop"></div>
                 <div class="close-btn"><span class="icon flaticon-cancel"></span></div>
                 <nav class="menu-box">
-                    <div class="nav-logo"><a href="index.html"><img src="images/nav-logo.png" alt=""></a></div>
+                    <div class="nav-logo">
+                        <a href="index.html" class="logo-with-caption">
+                            <img src="images/nav-logo.png" alt="" title="">
+                            <div class="logo-caption">
+                                <span class="cap-line1">Suicide Prevention</span>
+                                <span class="cap-line2">Awareness Network</span>
+                            </div>
+                        </a>
+                    </div>
                     <div class="menu-outer"></div>
                     <div class="social-links">
                         <ul class="clearfix">
