@@ -55,7 +55,7 @@ const { initDB } = require('./db');
 
 initDB()
     .then(() => {
-        app.listen(PORT, () => {
+        app.listen(PORT, '0.0.0.0', () => {
             console.log(`\n🚀 SPAN Blog API running at http://localhost:${PORT}`);
             console.log(`   Blog:        http://localhost:${PORT}/blog.html`);
             console.log(`   Blog Post:   http://localhost:${PORT}/blog-single.html?id=1`);
