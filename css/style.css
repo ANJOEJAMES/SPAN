@@ -4532,6 +4532,7 @@ img.lazy-image.loaded{
 	position:relative;
 	margin:0 0 25px;
 	padding-right: 20px;
+	color: #cccccc;
 }
 
 .main-footer .links-widget .widget-content{
