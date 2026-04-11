@@ -875,7 +875,7 @@
 	}
 
 	.main-header .header-upper{
-		padding: 8px 0 !important;
+		padding: 12px 0 !important;
 	}
 	
 	.main-header .header-upper .inner-container{
@@ -900,11 +900,11 @@
 	.main-header .header-upper .logo-box .logo .logo-with-caption{
 		display: flex !important;
 		align-items: center !important;
-		gap: 6px !important;
+		gap: 8px !important;
 	}
 	
 	.main-header .header-upper .logo-box .logo img{
-		max-height: 36px !important;
+		max-height: 50px !important;
 		width: auto !important;
 	}
 	
@@ -912,27 +912,27 @@
 		display: flex !important;
 		flex-direction: column !important;
 		line-height: 1.2 !important;
-		padding-left: 6px !important;
+		padding-left: 8px !important;
 		border-left: none !important;
 	}
 	
 	.main-header .header-upper .logo-box .logo-caption span{
-		font-size: 9px !important;
+		font-size: 12px !important;
 		line-height: 1.1 !important;
 	}
 
 	.nav-outer{
 		float: none !important;
 		flex: 0 0 auto !important;
-		margin-left: 8px !important;
+		margin-left: 10px !important;
 	}
 
 	.nav-outer .mobile-nav-toggler{
 		display: block !important;
 		margin: 0 !important;
-		padding: 4px 0 !important;
+		padding: 6px 0 !important;
 		float: none !important;
-		font-size: 24px !important;
+		font-size: 32px !important;
 		line-height: 1 !important;
 		margin-top: 0 !important;
 	}
