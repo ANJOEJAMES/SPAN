@@ -128,6 +128,16 @@ async function initDB() {
         )
     `);
 
+  await client.execute(`
+        CREATE TABLE IF NOT EXISTS testimonials (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            quote       TEXT    NOT NULL,
+            author      TEXT    NOT NULL,
+            designation TEXT    NOT NULL,
+            created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
+        )
+    `);
+
   // ── Seed blog categories if empty ─────────────────────────────────────────
   const bCatCount = await get('SELECT COUNT(*) as count FROM blog_categories');
   if ((bCatCount?.count ?? 0) == 0) {
@@ -201,6 +211,32 @@ async function initDB() {
     }
 
     console.log('✅ Database seeded with sample posts and comments.');
+  }
+
+  // ── Seed testimonials if empty ─────────────────────────────────────────────
+  const testCount = await get('SELECT COUNT(*) as count FROM testimonials');
+  if ((testCount?.count ?? 0) == 0) {
+    const TESTIMONIALS = [
+      {
+        quote: "Magna aliqua. Ut enim and minim veniam quis nostrud exercitation ullamco laboris nis aliquip ex ea comodo consequat. Duis aute irure dolor insy reprehenderit op luptate velit.",
+        author: "Sandy Thomas",
+        designation: "Volunteer"
+      },
+      {
+        quote: "Magna aliqua. Ut enim and minim veniam quis nostrud exercitation ullamco laboris nis aliquip ex ea comodo consequat. Duis aute irure dolor insy reprehenderit op luptate velit.",
+        author: "Daowp johns",
+        designation: "Donator"
+      },
+      {
+        quote: "Magna aliqua. Ut enim and minim veniam quis nostrud exercitation ullamco laboris nis aliquip ex ea comodo consequat. Duis aute irure dolor insy reprehenderit op luptate velit.",
+        author: "Kalim Huzoor",
+        designation: "Team Member"
+      }
+    ];
+
+    for (const t of TESTIMONIALS) {
+      await run('INSERT INTO testimonials (quote, author, designation) VALUES (?, ?, ?)', [t.quote, t.author, t.designation]);
+    }
   }
 
   console.log('✅ Database initialised and connected to Turso.');

@@ -550,7 +550,21 @@
         </section>
 
         <!--Testimonials Two Section-->
-        
+        <section class="testimonials-two alternate-bg">
+            <div class="auto-container">
+
+                <div class="sec-title centered">
+                    <div class="upper-icon"></div>
+                    <h2>What People Saying About Us!</h2>
+                </div>
+
+                <div class="carousel-box">
+                    <div class="testimonials-carousel owl-theme owl-carousel" id="testimonialsCarousel">
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!--Team Section-->
 
 
@@ -784,6 +798,52 @@ Rajkot, Gujarat, INDIA 360005</li>
 
             } catch (err) {
                 listContainer.innerHTML = '<div style="width:100%;text-align:center;padding:40px;color:#aaa;">Gallery coming soon.</div>';
+            }
+        });
+
+        // ── Dynamic Testimonials ───────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', async function () {
+            const carouselContainer = document.getElementById('testimonialsCarousel');
+            if (!carouselContainer) return;
+
+            try {
+                const testRes = await fetch(`${window.SPAN_API_URL}/testimonials`, { headers: { 'Bypass-Tunnel-Reminder': 'true' } });
+                const testimonials = await testRes.json();
+
+                if (!testimonials || !testimonials.length) {
+                    carouselContainer.innerHTML = '<div style="width:100%;text-align:center;padding:40px;color:#aaa;">No testimonials available yet.</div>';
+                    return;
+                }
+
+                carouselContainer.innerHTML = testimonials.map(t => {
+                    const cleanQuote = t.quote.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    const cleanAuthor = t.author.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    const cleanDesignation = t.designation.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return `
+                        <div class="testimonial-block-two">
+                            <div class="inner">
+                                <div class="top-left-icon"><span class="flaticon-chat"></span></div>
+                                <div class="text">${cleanQuote}</div>
+                                <div class="info">
+                                    <div class="icon"><span class="flaticon-straight-quotes"></span></div>
+                                    <div class="author">${cleanAuthor}</div>
+                                    <div class="designation">${cleanDesignation}</div>
+                                </div>
+                            </div>
+                        </div>`;
+                }).join('');
+
+                // Initialise Owl Carousel for Testimonials
+                setTimeout(() => {
+                    if (typeof jQuery !== 'undefined' && jQuery.fn.owlCarousel) {
+                        jQuery(carouselContainer).owlCarousel({
+                            loop: true, margin: 50, autoHeight:true, lazyLoad:true, nav: true, dots: true, autoplay: true, autoplayTimeout: 6000, smartSpeed: 300, 
+                            responsive:{ 0:{ items: 1 }, 600:{ items: 1 }, 768:{ items: 2 }, 800:{ items: 2 }, 1024:{ items: 2 }, 1200:{ items: 3 } }
+                        });
+                    }
+                }, 100);
+            } catch (err) {
+                carouselContainer.innerHTML = '<div style="width:100%;text-align:center;padding:40px;color:#aaa;">Currently unavailable.</div>';
             }
         });
     </script>

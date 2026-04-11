@@ -828,9 +828,13 @@ select option {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity .25s, transform .25s;
-  pointer-events: none;
-  max-width: 360px;
+  pointer-events: auto;
+  max-width: 450px;
   box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  line-height: 1.4;
 }
 
 .toast.show {
@@ -844,6 +848,23 @@ select option {
 
 .toast.error {
   background: var(--danger);
+}
+
+.toast button {
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+}
+
+.toast button:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* ── Modal ───────────────────────────────────────────────────────────────── */

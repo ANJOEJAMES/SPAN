@@ -61,6 +61,21 @@
                     </a>
                 </div>
             </div>
+            <!-- Testimonials group -->
+            <div class="nav-group" id="grp-testimonials">
+                <button class="nav-group-header" onclick="toggleGroup('grp-testimonials')">
+                    <span><i class="fas fa-quote-left"></i> Testimonials</span>
+                    <i class="fas fa-chevron-down nav-chevron"></i>
+                </button>
+                <div class="nav-group-body">
+                    <a href="#" class="nav-item nav-sub" data-section="testimonials">
+                        <i class="fas fa-list"></i> All Testimonials
+                    </a>
+                    <a href="#" class="nav-item nav-sub" data-section="new-testimonial">
+                        <i class="fas fa-plus-circle"></i> Add Testimonial
+                    </a>
+                </div>
+            </div>
         </nav>
 
         <div class="sidebar-footer">
@@ -364,6 +379,74 @@
             </div>
         </section>
 
+        <!-- ── SECTION: Testimonials List ──────────────────────── -->
+        <section id="section-testimonials" class="section">
+            <div class="section-header">
+                <div class="search-row">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="testSearchInput" placeholder="Search testimonials…">
+                    </div>
+                    <button class="btn btn-primary" onclick="showSection('new-testimonial')">
+                        <i class="fas fa-plus"></i> Add Testimonial
+                    </button>
+                </div>
+            </div>
+            <div class="table-wrap" style="margin-top: 20px;">
+                <table class="posts-table data-table">
+                    <thead>
+                        <tr>
+                            <th>Quote</th>
+                            <th>Author</th>
+                            <th>Designation</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testimonialsTableBody">
+                        <tr>
+                            <td colspan="5" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading testimonials...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ── SECTION: New Testimonial ──────────────────────── -->
+        <section id="section-new-testimonial" class="section">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h3>Add New Testimonial</h3>
+                    <button class="btn btn-ghost" onclick="showSection('testimonials')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+
+                <form id="testimonialForm">
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label>Quote <span class="req">*</span></label>
+                            <textarea id="tQuote" rows="4" placeholder="Enter the testimonial quote..." required></textarea>
+                        </div>
+                        <div class="form-group full">
+                            <label>Author Name <span class="req">*</span></label>
+                            <input type="text" id="tAuthor" placeholder="e.g. John Doe" required>
+                        </div>
+                        <div class="form-group full">
+                            <label>Designation / Position <span class="req">*</span></label>
+                            <input type="text" id="tDesignation" placeholder="e.g. Volunteer" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-ghost" onclick="showSection('testimonials')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submitTestimonialBtn">
+                            <i class="fas fa-save"></i> Save Testimonial
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
     </main>
 
     <!-- Delete Confirm Modal (Gallery Photo) -->
@@ -388,6 +471,19 @@
             <div class="modal-actions">
                 <button class="btn btn-ghost" onclick="closeDeleteModal()">Cancel</button>
                 <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirm Modal (Testimonial) -->
+    <div class="modal-overlay" id="deleteTestimonialModal">
+        <div class="modal">
+            <div class="modal-icon"><i class="fas fa-trash-alt"></i></div>
+            <h3>Delete Testimonial?</h3>
+            <p>This will permanently delete the testimonial. This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeDeleteTestimonialModal()">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeleteTestimonialBtn">Delete</button>
             </div>
         </div>
     </div>

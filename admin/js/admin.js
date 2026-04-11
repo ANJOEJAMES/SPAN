@@ -48,12 +48,12 @@ function authHeaders() {
 }
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
-function showToast(msg, type = 'success') {
+function showToast(msg, type = 'success', duration = 3500) {
     const el = document.getElementById('toast');
-    el.textContent = msg;
+    el.innerHTML = msg;
     el.className = `toast ${type} show`;
     clearTimeout(el._timer);
-    el._timer = setTimeout(() => el.classList.remove('show'), 3500);
+    el._timer = setTimeout(() => el.classList.remove('show'), duration);
 }
 
 // ── Sidebar accordion groups ───────────────────────────────────────────
@@ -92,6 +92,7 @@ function showSection(name) {
     if (name === 'posts') loadPosts();
     if (name === 'new-post' && !document.getElementById('editPostId').value) resetForm();
     if (name === 'gallery') loadGallery();
+    if (name === 'testimonials') loadTestimonials();
 
     // Always refresh categories when opening forms or category management
     if (['new-post', 'upload-photo', 'categories', 'gallery'].includes(name)) {
@@ -118,6 +119,7 @@ document.getElementById('sidebarToggle').addEventListener('click', () => {
 
 // ── Load Posts ────────────────────────────────────────────────────────────────
 let allPosts = [];
+let lastDeletedPost = null;
 
 async function loadPosts(search = '') {
     const tbody = document.getElementById('postsTableBody');
@@ -368,6 +370,9 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', async () =
     btn.disabled = true;
     btn.textContent = 'Deleting…';
 
+    // Save the post data before deleting for undo functionality
+    lastDeletedPost = allPosts.find(p => p.id == pendingDeleteId);
+
     try {
         const res = await fetch(`${API}/posts/${pendingDeleteId}`, {
             method: 'DELETE',
@@ -376,10 +381,14 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', async () =
         const data = await res.json();
         if (res.ok) {
             console.log('Delete response:', data);
+            const toastEl = document.getElementById('toast');
             const msg = data.cloudinaryDeleted 
-                ? 'Post and image deleted from Cloudinary' 
-                : 'Post deleted';
-            showToast(msg);
+                ? 'Post and image deleted from Cloudinary. <button type="button" onclick="undoPost()">Undo</button>'
+                : 'Post deleted. <button type="button" onclick="undoPost()">Undo</button>';
+            toastEl.innerHTML = msg;
+            toastEl.className = 'toast success show';
+            clearTimeout(toastEl._timer);
+            toastEl._timer = setTimeout(() => toastEl.classList.remove('show'), 8000);
             closeDeleteModal();
             loadPosts();
         } else {
@@ -736,3 +745,224 @@ async function deleteCategory(type, id) {
         }
     } catch { showToast('Connection error', 'error'); }
 }
+
+
+// ════════════════════════════════════════════════════════════════════════════
+// TESTIMONIALS MANAGEMENT
+// ════════════════════════════════════════════════════════════════════════════
+
+let allTestimonials = [];
+
+async function loadTestimonials() {
+    const tbody = document.getElementById('testimonialsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="5" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading testimonials...</td></tr>';
+    
+    try {
+        console.log('Fetching from:', `${API}/testimonials`);
+        const res = await fetch(`${API}/testimonials`, {
+            headers: { 'Bypass-Tunnel-Reminder': 'true' }
+        });
+        console.log('Fetch response status:', res.status);
+        allTestimonials = await res.json();
+        console.log('Testimonials loaded:', allTestimonials);
+        renderTestimonialsTable(allTestimonials);
+    } catch (e) {
+        console.error('Fetch testimonials error:', e);
+        tbody.innerHTML = `<tr><td colspan="5" class="loading-row" style="color:#fca5a5;">Failed to load testimonials: ${e.message}</td></tr>`;
+    }
+}
+
+function renderTestimonialsTable(testimonials) {
+    const tbody = document.getElementById('testimonialsTableBody');
+    if (!testimonials || !testimonials.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="loading-row">No testimonials found. Add a new one!</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = testimonials.map(t => {
+        const d = new Date(t.created_at);
+        const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        return `
+        <tr>
+            <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${(t.quote||'').replace(/"/g, '&quot;')}">${t.quote}</td>
+            <td style="font-weight:600;">${t.author}</td>
+            <td><span class="category-badge">${t.designation}</span></td>
+            <td style="white-space:nowrap;font-size:13px;color:var(--text-muted)">${dateStr}</td>
+            <td class="actions-cell">
+                <button class="btn btn-sm btn-delete btn-icon" onclick="openDeleteTestimonialModal(${t.id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+        `;
+    }).join('');
+}
+
+// Search testimonials
+let testSearchTimer;
+document.getElementById('testSearchInput')?.addEventListener('input', e => {
+    clearTimeout(testSearchTimer);
+    testSearchTimer = setTimeout(() => {
+        const q = e.target.value.trim().toLowerCase();
+        const filtered = allTestimonials.filter(t => 
+            (t.author||'').toLowerCase().includes(q) || 
+            (t.quote||'').toLowerCase().includes(q) || 
+            (t.designation||'').toLowerCase().includes(q)
+        );
+        renderTestimonialsTable(filtered);
+    }, 300);
+});
+
+// File submission
+document.getElementById('testimonialForm')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('submitTestimonialBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    const body = {
+        quote: document.getElementById('tQuote').value.trim(),
+        author: document.getElementById('tAuthor').value.trim(),
+        designation: document.getElementById('tDesignation').value.trim()
+    };
+
+    try {
+        const res = await fetch(`${API}/testimonials`, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (res.ok) {
+            showToast('Testimonial added successfully!');
+            document.getElementById('testimonialForm').reset();
+            showSection('testimonials');
+            loadTestimonials();
+        } else {
+            showToast(data.error || 'Failed to add', 'error');
+        }
+    } catch {
+        showToast('Connection error', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Save Testimonial';
+    }
+});
+
+let pendingDelTestId = null;
+let lastDeletedTestimonial = null;
+
+function openDeleteTestimonialModal(id) {
+    pendingDelTestId = id;
+    document.getElementById('deleteTestimonialModal').classList.add('open');
+}
+
+function closeDeleteTestimonialModal() {
+    pendingDelTestId = null;
+    document.getElementById('deleteTestimonialModal').classList.remove('open');
+}
+
+document.getElementById('confirmDeleteTestimonialBtn')?.addEventListener('click', async () => {
+    if (!pendingDelTestId) return;
+    const btn = document.getElementById('confirmDeleteTestimonialBtn');
+    btn.disabled = true; btn.textContent = 'Deleting...';
+    
+    // Save the object before deleting just in case user wants to undo
+    lastDeletedTestimonial = allTestimonials.find(t => t.id == pendingDelTestId);
+
+    try {
+        const res = await fetch(`${API}/testimonials/${pendingDelTestId}`, {
+            method: 'DELETE', headers: authHeaders()
+        });
+        const data = await res.json();
+        if (res.ok) {
+            closeDeleteTestimonialModal();
+            loadTestimonials();
+            const toastEl = document.getElementById('toast');
+            toastEl.innerHTML = 'Testimonial deleted. <button type="button" onclick="undoTestimonial()">Undo</button>';
+            toastEl.className = 'toast success show';
+            clearTimeout(toastEl._timer);
+            toastEl._timer = setTimeout(() => toastEl.classList.remove('show'), 8000);
+        } else {
+            showToast(data.error || 'Delete failed', 'error');
+        }
+    } catch {
+        showToast('Connection error', 'error');
+    } finally {
+        btn.disabled = false; btn.textContent = 'Delete';
+    }
+});
+
+// Logic for restoring the deleted testimonial
+window.undoTestimonial = async () => {
+    if (!lastDeletedTestimonial) return;
+
+    // Hide current toast immediately
+    const el = document.getElementById('toast');
+    if (el) el.classList.remove('show');
+
+    try {
+        const body = {
+            quote: lastDeletedTestimonial.quote,
+            author: lastDeletedTestimonial.author,
+            designation: lastDeletedTestimonial.designation
+        };
+        const res = await fetch(`${API}/testimonials`, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify(body)
+        });
+        if (res.ok) {
+            showToast('Testimonial restored successfully!');
+            lastDeletedTestimonial = null;
+            loadTestimonials();
+        } else {
+            showToast('Failed to restore testimonial', 'error');
+        }
+    } catch (e) {
+        showToast('Connection error restoring', 'error');
+    }
+};
+
+// Logic for restoring the deleted post
+window.undoPost = async () => {
+    if (!lastDeletedPost) return;
+
+    // Hide current toast immediately
+    const el = document.getElementById('toast');
+    if (el) el.classList.remove('show');
+
+    try {
+        const body = {
+            title: lastDeletedPost.title,
+            excerpt: lastDeletedPost.excerpt,
+            content: lastDeletedPost.content,
+            author: lastDeletedPost.author,
+            date: lastDeletedPost.date,
+            category: lastDeletedPost.category,
+            image: lastDeletedPost.image,
+            is_html: lastDeletedPost.is_html
+        };
+        const res = await fetch(`${API}/posts`, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify(body)
+        });
+        if (res.ok) {
+            showToast('Post restored successfully!');
+            lastDeletedPost = null;
+            loadPosts();
+        } else {
+            const err = await res.json();
+            showToast(err.error || 'Failed to restore post', 'error');
+        }
+    } catch (e) {
+        showToast('Connection error restoring', 'error');
+    }
+};
+
+document.getElementById('deleteTestimonialModal')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeDeleteTestimonialModal();
+});

@@ -28,6 +28,7 @@ const newsletterRouter = require('./routes/newsletter');
 const uploadRouter = require('./routes/upload');
 const authRouter = require('./routes/auth');
 const galleryRouter = require('./routes/gallery');
+const testimonialsRouter = require('./routes/testimonials');
 
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
@@ -36,6 +37,7 @@ app.use('/api/categories', categoriesRouter);
 app.use('/api/newsletter', newsletterRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/gallery', galleryRouter);
+app.use('/api/testimonials', testimonialsRouter);
 
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
