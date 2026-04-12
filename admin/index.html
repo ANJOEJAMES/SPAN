@@ -34,14 +34,16 @@
                     <a href="#" class="nav-item nav-sub" data-section="new-post">
                         <i class="fas fa-plus-circle"></i> New Post
                     </a>
-                    <a href="#" class="nav-item nav-sub" data-section="categories">
-                        <i class="fas fa-tags"></i> Categories
-                    </a>
                     <a href="/blog.html" target="_blank" class="nav-item nav-sub">
                         <i class="fas fa-external-link-alt"></i> View Blog
                     </a>
                 </div>
             </div>
+
+            <!-- Categories item (standalone) -->
+            <a href="#" class="nav-item" data-section="categories">
+                <i class="fas fa-tags"></i> Categories
+            </a>
 
             <!-- Gallery group -->
             <div class="nav-group" id="grp-gallery">
@@ -73,6 +75,18 @@
                     </a>
                     <a href="#" class="nav-item nav-sub" data-section="new-testimonial">
                         <i class="fas fa-plus-circle"></i> Add Testimonial
+                    </a>
+                </div>
+            </div>
+            <!-- Stats group -->
+            <div class="nav-group" id="grp-stats">
+                <button class="nav-group-header" onclick="toggleGroup('grp-stats')">
+                    <span><i class="fas fa-chart-line"></i> Site Stats</span>
+                    <i class="fas fa-chevron-down nav-chevron"></i>
+                </button>
+                <div class="nav-group-body">
+                    <a href="#" class="nav-item nav-sub" data-section="stats">
+                        <i class="fas fa-edit"></i> Edit Counts
                     </a>
                 </div>
             </div>
@@ -446,9 +460,6 @@
                 </form>
             </div>
         </section>
-
-    </main>
-
     <!-- Delete Confirm Modal (Gallery Photo) -->
     <div class="modal-overlay" id="deletePhotoModal">
         <div class="modal">
@@ -487,6 +498,76 @@
             </div>
         </div>
     </div>
+
+        <!-- ── SECTION: Site Stats ─────────────────────── -->
+        <section id="section-stats" class="section">
+            <div class="section-header stats-header">
+                <h2>Site Statistics</h2>
+                <p>These numbers appear on the homepage counter section</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card-admin">
+                    <div class="stat-header">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-title">
+                            <label>People Helped</label>
+                            <small>Total lives impacted</small>
+                        </div>
+                    </div>
+                    <div class="stat-input-wrap">
+                        <input type="number" id="statPeopleHelped" placeholder="e.g. 100000">
+                    </div>
+                </div>
+                
+                <div class="stat-card-admin">
+                    <div class="stat-header">
+                        <div class="stat-icon"><i class="fas fa-hands-helping"></i></div>
+                        <div class="stat-title">
+                            <label>Volunteers Trained</label>
+                            <small>Active volunteers</small>
+                        </div>
+                    </div>
+                    <div class="stat-input-wrap">
+                        <input type="number" id="statVolunteersTrained" placeholder="e.g. 500">
+                    </div>
+                </div>
+                
+                <div class="stat-card-admin">
+                    <div class="stat-header">
+                        <div class="stat-icon"><i class="fas fa-user-friends"></i></div>
+                        <div class="stat-title">
+                            <label>Peer Support Counsellors</label>
+                            <small>Available to help</small>
+                        </div>
+                    </div>
+                    <div class="stat-input-wrap">
+                        <input type="number" id="statPeerCounsellors" placeholder="e.g. 100">
+                    </div>
+                </div>
+                
+                <div class="stat-card-admin">
+                    <div class="stat-header">
+                        <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div class="stat-title">
+                            <label>Training Workshops Held</label>
+                            <small>Total workshops</small>
+                        </div>
+                    </div>
+                    <div class="stat-input-wrap">
+                        <input type="number" id="statWorkshopsHeld" placeholder="e.g. 200">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-actions" style="margin-top: 24px; justify-content: flex-start;">
+                <button class="btn btn-primary" id="saveStatsBtn">
+                    <i class="fas fa-save"></i> Save Stats
+                </button>
+            </div>
+        </section>
+
+    </main>
 
     <!-- JavaScript -->
     <script src="/js/config.js"></script>

@@ -86,31 +86,57 @@
 
 	//Fact Counter + Text Count
 	if($('.count-box').length){
-		$('.count-box').appear(function(){
-
-			var $t = $(this),
-				n = $t.find(".count-text").attr("data-stop"),
-				r = parseInt($t.find(".count-text").attr("data-speed"), 10);
-
-			if (!$t.hasClass("counted")) {
-				$t.addClass("counted");
-				$({
-					countNum: $t.find(".count-text").text()
-				}).animate({
-					countNum: n
-				}, {
-					duration: r,
-					easing: "linear",
-					step: function() {
-						$t.find(".count-text").text(Math.floor(this.countNum));
-					},
-					complete: function() {
-						$t.find(".count-text").text(this.countNum);
+		// First, try to fetch stats from API
+		fetch(window.SPAN_API_URL ? window.SPAN_API_URL.replace('/api', '/api/stats') : '/api/stats', {
+			headers: { 'Bypass-Tunnel-Reminder': 'true' }
+		})
+		.then(res => res.json())
+		.then(stats => {
+			if (stats && stats.length) {
+				const statMap = {};
+				stats.forEach(s => { statMap[s.key] = s.value; });
+				
+				// Update HTML data-stop attributes with API values
+				$('.count-text').each(function() {
+					const $el = $(this);
+					const key = $el.data('key');
+					if (key && statMap[key] !== undefined) {
+						$el.attr('data-stop', statMap[key]);
 					}
 				});
 			}
+		})
+		.catch(() => {
+			// API not available, use default values from HTML
+		})
+		.finally(() => {
+			// Now animate counters
+			$('.count-box').appear(function(){
 
-		},{accY: 0});
+				var $t = $(this),
+					n = $t.find(".count-text").attr("data-stop"),
+					r = parseInt($t.find(".count-text").attr("data-speed"), 10);
+
+				if (!$t.hasClass("counted")) {
+					$t.addClass("counted");
+					$({
+						countNum: $t.find(".count-text").text()
+					}).animate({
+						countNum: n
+					}, {
+						duration: r,
+						easing: "linear",
+						step: function() {
+							$t.find(".count-text").text(Math.floor(this.countNum));
+						},
+						complete: function() {
+							$t.find(".count-text").text(this.countNum);
+						}
+					});
+				}
+
+			},{accY: 0});
+		});
 	}
 
 	//MixitUp Gallery Filters
@@ -361,30 +387,36 @@ document.addEventListener('paste', function(e) {
 	return false;
 });
 
-// Disable right-click context menu to prevent inspect element access
-document.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
-	return false;
-});
+// TEMPORARILY DISABLED - Right-click protection
+// document.addEventListener('contextmenu', function(e) {
+// 	e.preventDefault();
+// 	return false;
+// });
 
-// Disable keyboard shortcuts for developer tools
-document.addEventListener('keydown', function(e) {
-	// Block F12
-	if (e.keyCode === 123) {
-		e.preventDefault();
-		return false;
-	}
-	// Block Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
-	if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-		e.preventDefault();
-		return false;
-	}
-	// Block Ctrl+U (view page source)
-	if (e.ctrlKey && e.keyCode === 85) {
-		e.preventDefault();
-		return false;
-	}
-});
+// TEMPORARILY DISABLED - Right-click protection
+// document.addEventListener('contextmenu', function(e) {
+// 	e.preventDefault();
+// 	return false;
+// });
+
+// TEMPORARILY DISABLED - Disable keyboard shortcuts for developer tools
+// document.addEventListener('keydown', function(e) {
+// 	// Block F12
+// 	if (e.keyCode === 123) {
+// 		e.preventDefault();
+// 		return false;
+// 	}
+// 	// Block Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+// 	if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+// 		e.preventDefault();
+// 		return false;
+// 	}
+// 	// Block Ctrl+U (view page source)
+// 	if (e.ctrlKey && e.keyCode === 85) {
+// 		e.preventDefault();
+// 		return false;
+// 	}
+// });
 
 // Optional: Detect if dev tools are open and take action
 (function() {

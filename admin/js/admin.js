@@ -58,8 +58,10 @@ function showToast(msg, type = 'success', duration = 3500) {
 
 // ── Sidebar accordion groups ───────────────────────────────────────────
 const GROUP_MAP = {
-    posts: 'grp-blog', 'new-post': 'grp-blog', 'categories': 'grp-blog',
-    gallery: 'grp-gallery', 'upload-photo': 'grp-gallery'
+    posts: 'grp-blog', 'new-post': 'grp-blog',
+    gallery: 'grp-gallery', 'upload-photo': 'grp-gallery',
+    testimonials: 'grp-testimonials', 'new-testimonial': 'grp-testimonials',
+    stats: 'grp-stats'
 };
 
 function toggleGroup(id) {
@@ -82,7 +84,16 @@ function showSection(name) {
     document.querySelectorAll('.nav-item[data-section]').forEach(a => {
         a.classList.toggle('active', a.dataset.section === name);
     });
-    const titles = { posts: 'Blog Posts', 'new-post': 'New Post', categories: 'Categories Management', gallery: 'Gallery', 'upload-photo': 'Upload Photo' };
+    const titles = { 
+        posts: 'Blog Posts', 
+        'new-post': 'New Post', 
+        categories: 'Categories Management', 
+        gallery: 'Gallery', 
+        'upload-photo': 'Upload Photo',
+        testimonials: 'Testimonials',
+        'new-testimonial': 'Add Testimonial',
+        stats: 'Site Stats'
+    };
     document.getElementById('pageTitle').textContent = titles[name] || 'Admin';
 
     // Expand the group that owns this section
@@ -93,6 +104,7 @@ function showSection(name) {
     if (name === 'new-post' && !document.getElementById('editPostId').value) resetForm();
     if (name === 'gallery') loadGallery();
     if (name === 'testimonials') loadTestimonials();
+    if (name === 'stats') loadStats();
 
     // Always refresh categories when opening forms or category management
     if (['new-post', 'upload-photo', 'categories', 'gallery'].includes(name)) {
@@ -115,6 +127,27 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 // ── Sidebar toggle (mobile) ───────────────────────────────────────────────────
 document.getElementById('sidebarToggle').addEventListener('click', () => {
     document.querySelector('.sidebar').classList.toggle('open');
+});
+
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', (e) => {
+    const sidebar = document.querySelector('.sidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    if (window.innerWidth <= 768 && 
+        sidebar.classList.contains('open') &&
+        !sidebar.contains(e.target) &&
+        !toggle.contains(e.target)) {
+        sidebar.classList.remove('open');
+    }
+});
+
+// Also close sidebar when a nav item is clicked on mobile
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            document.querySelector('.sidebar').classList.remove('open');
+        }
+    });
 });
 
 // ── Load Posts ────────────────────────────────────────────────────────────────
@@ -965,4 +998,57 @@ window.undoPost = async () => {
 
 document.getElementById('deleteTestimonialModal')?.addEventListener('click', e => {
     if (e.target === e.currentTarget) closeDeleteTestimonialModal();
+});
+
+// ── Stats Functions ─────────────────────────────────────────────────────
+async function loadStats() {
+    try {
+        const res = await fetch(`${API}/stats`, {
+            headers: { 'Bypass-Tunnel-Reminder': 'true' }
+        });
+        const stats = await res.json();
+        
+        const statMap = {};
+        stats.forEach(s => { statMap[s.key] = s.value; });
+        
+        document.getElementById('statPeopleHelped').value = statMap.people_helped || 0;
+        document.getElementById('statVolunteersTrained').value = statMap.volunteers_trained || 0;
+        document.getElementById('statPeerCounsellors').value = statMap.peer_counsellors || 0;
+        document.getElementById('statWorkshopsHeld').value = statMap.workshops_held || 0;
+    } catch (e) {
+        showToast('Failed to load stats', 'error');
+    }
+}
+
+document.getElementById('saveStatsBtn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('saveStatsBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    
+    const stats = [
+        { key: 'people_helped', value: parseInt(document.getElementById('statPeopleHelped').value) || 0 },
+        { key: 'volunteers_trained', value: parseInt(document.getElementById('statVolunteersTrained').value) || 0 },
+        { key: 'peer_counsellors', value: parseInt(document.getElementById('statPeerCounsellors').value) || 0 },
+        { key: 'workshops_held', value: parseInt(document.getElementById('statWorkshopsHeld').value) || 0 }
+    ];
+    
+    try {
+        for (const stat of stats) {
+            const res = await fetch(`${API}/stats/${stat.key}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...authHeaders()
+                },
+                body: JSON.stringify({ value: stat.value })
+            });
+            if (!res.ok) throw new Error('Failed to save');
+        }
+        showToast('Stats saved successfully!');
+    } catch (e) {
+        showToast('Failed to save stats', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Save Stats';
+    }
 });

@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // ── Serve static frontend files from the parent directory ────────────────────
 app.use(express.static(path.join(__dirname, '..')));
 
-// ── API Routes ────────────────────────────────────────────────────────────────
+// ── API Routes ───────────────────────────────────────────────────────────────
 const postsRouter = require('./routes/posts');
 const commentsRouter = require('./routes/comments');
 const categoriesRouter = require('./routes/categories');
@@ -29,6 +29,7 @@ const uploadRouter = require('./routes/upload');
 const authRouter = require('./routes/auth');
 const galleryRouter = require('./routes/gallery');
 const testimonialsRouter = require('./routes/testimonials');
+const statsRouter = require('./routes/stats');
 
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
@@ -38,6 +39,11 @@ app.use('/api/newsletter', newsletterRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/gallery', galleryRouter);
 app.use('/api/testimonials', testimonialsRouter);
+app.use('/api/stats', statsRouter);
+
+console.log('Routes loaded: posts, comments, categories, newsletter, upload, auth, gallery, testimonials, stats')
+
+console.log('Routes loaded: posts, comments, categories, newsletter, upload, auth, gallery, testimonials, stats');
 
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
@@ -59,6 +65,7 @@ initDB()
             console.log(`\n🚀 SPAN Blog API running at http://localhost:${PORT}`);
             console.log(`   Blog:        http://localhost:${PORT}/blog.html`);
             console.log(`   Blog Post:   http://localhost:${PORT}/blog-single.html?id=1`);
+            console.log(`   Stats API:   http://localhost:${PORT}/api/stats`);
             console.log(`   Upload API:  POST http://localhost:${PORT}/api/upload`);
             console.log(`   API Docs:    http://localhost:${PORT}/api/posts\n`);
         });

@@ -138,6 +138,29 @@ async function initDB() {
         )
     `);
 
+  await client.execute(`
+        CREATE TABLE IF NOT EXISTS stats (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            key       TEXT    NOT NULL UNIQUE,
+            value     INTEGER NOT NULL DEFAULT 0,
+            updated_at TEXT    NOT NULL DEFAULT (datetime('now'))
+        )
+    `);
+
+  // Seed stats if empty
+  const statsCount = await get('SELECT COUNT(*) as count FROM stats');
+  if ((statsCount?.count ?? 0) == 0) {
+    const initStats = [
+      { key: 'people_helped', value: 98520 },
+      { key: 'volunteers_trained', value: 306 },
+      { key: 'peer_counsellors', value: 84 },
+      { key: 'workshops_held', value: 1369 }
+    ];
+    for (const stat of initStats) {
+      await run('INSERT INTO stats (key, value, updated_at) VALUES (?, ?, CURRENT_TIMESTAMP)', [stat.key, stat.value]);
+    }
+  }
+
   // ── Seed blog categories if empty ─────────────────────────────────────────
   const bCatCount = await get('SELECT COUNT(*) as count FROM blog_categories');
   if ((bCatCount?.count ?? 0) == 0) {
