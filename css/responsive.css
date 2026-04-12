@@ -876,6 +876,12 @@
 
 	.main-header .header-upper{
 		padding: 25px 0 !important;
+		background: #fff !important;
+	}
+
+	.main-header.header-style-two .header-upper,
+	.main-header .header-upper{
+		background: #ffffff !important;
 	}
 
 	.nav-outer{
@@ -892,6 +898,7 @@
 		font-size: 36px !important;
 		line-height: 1 !important;
 		margin-top: 0 !important;
+		color: #1a1a2e !important;
 	}
 
 	.preloader{
