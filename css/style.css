@@ -8902,6 +8902,8 @@ img.lazy-image.loaded{
 
 .call-to-box{
 	position:relative;
+	width: 100%;
+	margin: 0;
 }
 
 .call-to-box .inner{
@@ -8909,12 +8911,15 @@ img.lazy-image.loaded{
 	background: #3f6b92;
 	color: #ffffff;
 	padding: 50px 60px 25px;
-	border-radius: 5px;
+	border-radius: 0;
+	width: 100%;
+	max-width: 100%;
 }
 
 .call-to-box .title-column{
 	position: relative;
 	margin-bottom: 30px;
+	flex: 1;
 }
 
 .call-to-box h2{

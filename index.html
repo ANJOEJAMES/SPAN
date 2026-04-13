@@ -186,6 +186,25 @@
         .nav-logo .logo-caption span {
             color: #5fa4a3;
         }
+
+        /* Mobile responsive: switch to header-style-one colors */
+        @media only screen and (max-width: 1023px) {
+            .main-header.header-style-two {
+                background: transparent !important;
+            }
+        }
+        @media (max-width: 991px) {
+            .header-style-two .header-top {
+                background-color: #faf9f2 !important;
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+            }
+            .header-style-two .header-top .info li a {
+                color: #1a1a2e !important;
+            }
+            .header-style-two .header-top .info li a:hover {
+                color: #5fa4a3 !important;
+            }
+        }
     </style>
 </head>
 
@@ -205,10 +224,8 @@
                     <div class="inner clearfix">
                         <div class="top-left clearfix">
                             <ul class="info clearfix">
-                                <li><a href="tel:+919687114239"><span class="icon fa fa-phone-alt"></span> Support us
-                                        &nbsp;+91 968 711 4239</a></li>
-                                <li><a href="mailto:span20261@gmail.com"><span class="icon fa fa-envelope-open"></span>
-                                        Email: &nbsp;span20261@gmail.com</a></li>
+                                <li><a href="tel:+919687114239"><span class="icon fa fa-phone-alt"></span> Support us &nbsp;+91 968 711 4239</a></li>
+                                <li><a href="mailto:span20261@gmail.com"><span class="icon fa fa-envelope-open"></span> Email: &nbsp;span20261@gmail.com</a></li>
                             </ul>
                         </div>
 

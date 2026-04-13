@@ -1,32 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const { get } = require('../db');
 
 /**
  * POST /api/auth/login
  * Body: { email, password }
  * Response: { token, expiresIn }
  */
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
         return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const validEmail = process.env.ADMIN_EMAIL || 'admin@test.com';
-    const validPassword = process.env.ADMIN_PASSWORD || 'adminspan@2026';
+    const admin = await get('SELECT * FROM admin_users WHERE email = ?', [email.trim()]);
 
-    if (email.trim() !== validEmail || password !== validPassword) {
-        // Generic message to avoid leaking which field is wrong
+    if (!admin) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, admin.password);
+    if (!passwordMatch) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const secret = process.env.JWT_SECRET || 'span_dev_secret';
     const expiresIn = '8h';
-    const token = jwt.sign({ email, role: 'admin' }, secret, { expiresIn });
+    const token = jwt.sign({ email: admin.email, role: admin.role }, secret, { expiresIn });
 
-    res.json({ token, expiresIn, email });
+    res.json({ token, expiresIn, email: admin.email });
 });
 
 /**

@@ -147,6 +147,25 @@ async function initDB() {
         )
     `);
 
+  await client.execute(`
+        CREATE TABLE IF NOT EXISTS admin_users (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            email      TEXT    NOT NULL UNIQUE,
+            password   TEXT    NOT NULL,
+            role       TEXT    NOT NULL DEFAULT 'admin',
+            created_at TEXT    NOT NULL DEFAULT (datetime('now'))
+        )
+    `);
+
+  // Seed admin user if empty
+  const adminCount = await get('SELECT COUNT(*) as count FROM admin_users');
+  if ((adminCount?.count ?? 0) == 0) {
+    const bcrypt = require('bcrypt');
+    const hashedPassword = await bcrypt.hash('adminspanhope@1234', 10);
+    await run('INSERT INTO admin_users (email, password, role) VALUES (?, ?, ?)', ['admin@span.com', hashedPassword, 'admin']);
+    console.log('✅ Default admin user seeded with hashed password.');
+  }
+
   // Seed stats if empty
   const statsCount = await get('SELECT COUNT(*) as count FROM stats');
   if ((statsCount?.count ?? 0) == 0) {
