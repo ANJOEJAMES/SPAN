@@ -1,0 +1,55 @@
+/* 07-sections.css - Section display */
+.section {
+  display: none;
+  padding: 32px;
+  flex: 1;
+}
+
+.section.active {
+  display: block;
+}
+
+.section-header {
+  margin-bottom: 26px;
+}
+
+.section-header.stats-header {
+  background: linear-gradient(135deg, var(--surface), #f9f6f6);
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-classic);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+  max-width: 800px;
+}
+
+.section-header.stats-header::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 300px; height: 100%;
+  background: linear-gradient(135deg, transparent, rgba(114, 47, 55, 0.05));
+  border-radius: 50%;
+  transform: translate(30%, -20%);
+  pointer-events: none;
+}
+
+.section-header.stats-header h2 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  color: var(--accent-wine);
+  margin-bottom: 8px;
+}
+
+.section-header.stats-header p {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 18px;
+  }
+}

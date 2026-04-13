@@ -1,0 +1,34 @@
+<!-- Testimonials sections --><section id="section-testimonials" class="section">
+    <div class="section-header">
+        <div class="search-row">
+            <div class="search-box"><i class="fas fa-search"></i><input type="text" id="testSearchInput" placeholder="Search testimonials…"></div>
+            <button class="btn btn-primary" onclick="showSection('new-testimonial')"><i class="fas fa-plus"></i> Add Testimonial</button>
+        </div>
+    </div>
+    <div class="table-wrap" style="margin-top:20px;">
+        <table class="posts-table data-table">
+            <thead><tr><th>Quote</th><th>Author</th><th>Designation</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="testimonialsTableBody"><tr><td colspan="5" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading…</td></tr></tbody>
+        </table>
+    </div>
+</section>
+
+<section id="section-new-testimonial" class="section">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3>Add Testimonial</h3>
+            <button class="btn btn-ghost" onclick="showSection('testimonials')"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+        <form id="testimonialForm">
+            <div class="form-grid">
+                <div class="form-group full"><label>Quote <span class="req">*</span></label><textarea id="tQuote" rows="4" placeholder="Enter quote…" required></textarea></div>
+                <div class="form-group full"><label>Author <span class="req">*</span></label><input type="text" id="tAuthor" placeholder="John Doe" required></div>
+                <div class="form-group full"><label>Designation <span class="req">*</span></label><input type="text" id="tDesignation" placeholder="Volunteer" required></div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-ghost" onclick="showSection('testimonials')">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="submitTestimonialBtn"><i class="fas fa-save"></i> Save Testimonial</button>
+            </div>
+        </form>
+    </div>
+</section>

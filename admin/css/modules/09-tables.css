@@ -1,0 +1,132 @@
+/* 09-tables.css - Tables */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border-classic);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.posts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.posts-table thead {
+  background: var(--surface-soft);
+}
+
+.posts-table th {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 2px solid var(--border-classic);
+}
+
+.posts-table td {
+  padding: 16px 18px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+
+.posts-table tr:last-child td {
+  border-bottom: none;
+}
+
+.posts-table tr:hover td {
+  background: var(--surface-soft);
+}
+
+.post-thumb {
+  width: 56px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  border: 1px solid var(--border-light);
+}
+
+.post-title-cell {
+  max-width: 260px;
+}
+
+.post-title-cell a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.post-title-cell a:hover {
+  color: var(--accent-wine);
+}
+
+.post-excerpt {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+.category-badge {
+  padding: 4px 12px;
+  background: var(--surface-soft);
+  color: var(--accent-wine);
+  border: 1px solid var(--border-classic);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.loading-row {
+  text-align: center;
+  padding: 48px !important;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Data table (categories) */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table thead {
+  background: var(--surface-soft);
+}
+
+.data-table th {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border-classic);
+}
+
+.data-table td {
+  padding: 12px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.data-table tr:hover td {
+  background: var(--surface-soft);
+}

@@ -1,0 +1,33 @@
+/* 01-variables.css - Design tokens and CSS variables */
+:root {
+  /* Colors */
+  --bg-cream: #f8f5f0;
+  --bg-ivory: #faf9f7;
+  --surface: #ffffff;
+  --surface-soft: #f5f2eb;
+  --border-classic: #d4cfc5;
+  --border-light: #e8e3da;
+  --accent-wine: #722f37;
+  --accent-wine-dark: #5a252c;
+  --accent-gold: #b8860b;
+  --text-dark: #2c2416;
+  --text-medium: #5c5344;
+  --text-muted: #8a8275;
+  --danger: #a94442;
+  --success: #3c763d;
+
+  /* Layout */
+  --sidebar-w: 260px;
+  --topbar-h: 64px;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Source Serif 4', 'Georgia', 'Times New Roman', serif;
+
+  /* Effects */
+  --shadow-soft: 0 2px 8px rgba(44, 36, 22, 0.08);
+  --shadow-card: 0 3px 12px rgba(44, 36, 22, 0.1);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}

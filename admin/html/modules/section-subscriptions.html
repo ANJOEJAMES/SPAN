@@ -1,0 +1,39 @@
+<!-- Stats section --><section id="section-stats" class="section">
+    <div class="section-header stats-header"><h2>Site Statistics</h2><p>Numbers appear on homepage</p></div>
+    <div class="stats-grid">
+        <div class="stat-card-admin">
+            <div class="stat-header"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-title"><label>People Helped</label><small>Total lives impacted</small></div></div>
+            <div class="stat-input-wrap"><input type="number" id="statPeopleHelped" placeholder="e.g. 100000"></div>
+        </div>
+        <div class="stat-card-admin">
+            <div class="stat-header"><div class="stat-icon"><i class="fas fa-hands-helping"></i></div><div class="stat-title"><label>Volunteers Trained</label><small>Active volunteers</small></div></div>
+            <div class="stat-input-wrap"><input type="number" id="statVolunteersTrained" placeholder="e.g. 500"></div>
+        </div>
+        <div class="stat-card-admin">
+            <div class="stat-header"><div class="stat-icon"><i class="fas fa-user-friends"></i></div><div class="stat-title"><label>Peer Counsellors</label><small>Available to help</small></div></div>
+            <div class="stat-input-wrap"><input type="number" id="statPeerCounsellors" placeholder="e.g. 100"></div>
+        </div>
+        <div class="stat-card-admin">
+            <div class="stat-header"><div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div><div class="stat-title"><label>Workshops Held</label><small>Total workshops</small></div></div>
+            <div class="stat-input-wrap"><input type="number" id="statWorkshopsHeld" placeholder="e.g. 200"></div>
+        </div>
+    </div>
+    <div class="form-actions" style="margin-top:24px;justify-content:flex-start;">
+        <button class="btn btn-primary" id="saveStatsBtn"><i class="fas fa-save"></i> Save Stats</button>
+    </div>
+</section>
+
+<section id="section-subscriptions" class="section">
+    <div class="section-header">
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+            <div><h2>Subscribers</h2><p>Newsletter email list</p></div>
+            <button class="btn btn-ghost" onclick="loadSubscriptions()" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table class="posts-table">
+            <thead><tr><th>Email</th><th>Subscribed</th><th style="width:60px;"></th></tr></thead>
+            <tbody id="subscriptionsTableBody"><tr><td colspan="3" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading…</td></tr></tbody>
+        </table>
+    </div>
+</section>

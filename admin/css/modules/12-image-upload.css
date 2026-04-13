@@ -1,0 +1,62 @@
+/* 12-image-upload.css - Image upload box */
+.image-upload-box {
+  position: relative;
+  border: 2px dashed var(--border-classic);
+  border-radius: var(--radius-md);
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+  overflow: hidden;
+  background: var(--surface-soft);
+}
+
+.image-upload-box:hover {
+  border-color: var(--accent-wine);
+  background: #fdf8f8;
+}
+
+.image-upload-box.drag-over {
+  border-color: var(--accent-wine);
+  background: #fdf0f0;
+}
+
+.upload-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  padding: 24px;
+}
+
+.upload-prompt i {
+  font-size: 32px;
+  color: var(--accent-wine);
+}
+
+.upload-prompt small {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.image-preview {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: none;
+}
+
+.image-preview.visible {
+  display: block;
+}
+
+/* Gallery grid */
+#galleryGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}

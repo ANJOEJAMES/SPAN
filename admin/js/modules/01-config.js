@@ -1,0 +1,11 @@
+const API = window.SPAN_API_URL;
+const token = localStorage.getItem('span_admin_token') || '';
+const SESSION_DURATION_MS = 24 * 60 * 60 * 1000;
+const TAG_LABELS = { medical: 'Voices of Hope', education: 'Safe Spaces', animal: 'Cultural Resilience', shelter: 'Educational Hub' };
+const GROUP_MAP = { posts: 'grp-blog', 'new-post': 'grp-blog', gallery: 'grp-gallery', 'upload-photo': 'grp-gallery', testimonials: 'grp-testimonials', 'new-testimonial': 'grp-testimonials', stats: 'grp-stats', subscriptions: 'grp-subscriptions' };
+const SECTION_TITLES = { posts: 'Blog Posts', 'new-post': 'New Post', categories: 'Categories Management', gallery: 'Gallery', 'upload-photo': 'Upload Photo', testimonials: 'Testimonials', 'new-testimonial': 'Add Testimonial', stats: 'Site Stats', subscriptions: 'Subscriptions' };
+window.allPosts = []; window.lastDeletedPost = null;
+window.allGalleryPhotos = []; window.galleryTagFilter = '';
+window.allBlogCategories = []; window.allGalleryCategories = [];
+window.allTestimonials = []; window.pendingDelTestId = null; window.lastDeletedTestimonial = null;
+window.pendingDeleteId = null; window.pendingDeletePhotoId = null;

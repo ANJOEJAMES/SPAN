@@ -1,0 +1,48 @@
+<!-- Sidebar --><aside class="sidebar">
+    <div class="sidebar-logo">
+        <img src="/images/logo.png" alt="SPAN" onerror="this.style.display='none'">
+        <span>Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="nav-group" id="grp-blog">
+            <button class="nav-group-header" onclick="toggleGroup('grp-blog')"><span><i class="fas fa-newspaper"></i> Blog</span><i class="fas fa-chevron-down nav-chevron"></i></button>
+            <div class="nav-group-body">
+                <a href="#" class="nav-item nav-sub active" data-section="posts"><i class="fas fa-list"></i> All Posts</a>
+                <a href="#" class="nav-item nav-sub" data-section="new-post"><i class="fas fa-plus-circle"></i> New Post</a>
+                <a href="/blog.html" target="_blank" class="nav-item nav-sub"><i class="fas fa-external-link-alt"></i> View Blog</a>
+            </div>
+        </div>
+        <a href="#" class="nav-item" data-section="categories"><i class="fas fa-tags"></i> Categories</a>
+        <div class="nav-group" id="grp-gallery">
+            <button class="nav-group-header" onclick="toggleGroup('grp-gallery')"><span><i class="fas fa-images"></i> Gallery</span><i class="fas fa-chevron-down nav-chevron"></i></button>
+            <div class="nav-group-body">
+                <a href="#" class="nav-item nav-sub" data-section="gallery"><i class="fas fa-th"></i> All Photos</a>
+                <a href="#" class="nav-item nav-sub" data-section="upload-photo"><i class="fas fa-cloud-upload-alt"></i> Upload Photo</a>
+                <a href="/index.html" target="_blank" class="nav-item nav-sub"><i class="fas fa-external-link-alt"></i> View Gallery</a>
+            </div>
+        </div>
+        <div class="nav-group" id="grp-testimonials">
+            <button class="nav-group-header" onclick="toggleGroup('grp-testimonials')"><span><i class="fas fa-quote-left"></i> Testimonials</span><i class="fas fa-chevron-down nav-chevron"></i></button>
+            <div class="nav-group-body">
+                <a href="#" class="nav-item nav-sub" data-section="testimonials"><i class="fas fa-list"></i> All Testimonials</a>
+                <a href="#" class="nav-item nav-sub" data-section="new-testimonial"><i class="fas fa-plus-circle"></i> Add Testimonial</a>
+            </div>
+        </div>
+        <div class="nav-group" id="grp-stats">
+            <button class="nav-group-header" onclick="toggleGroup('grp-stats')"><span><i class="fas fa-chart-line"></i> Site Stats</span><i class="fas fa-chevron-down nav-chevron"></i></button>
+            <div class="nav-group-body">
+                <a href="#" class="nav-item nav-sub" data-section="stats"><i class="fas fa-edit"></i> Edit Counts</a>
+            </div>
+        </div>
+        <div class="nav-group" id="grp-subscriptions">
+            <button class="nav-group-header" onclick="toggleGroup('grp-subscriptions')"><span><i class="fas fa-envelope"></i> Subscriptions</span><i class="fas fa-chevron-down nav-chevron"></i></button>
+            <div class="nav-group-body">
+                <a href="#" class="nav-item nav-sub" data-section="subscriptions"><i class="fas fa-list"></i> View Subscribers</a>
+            </div>
+        </div>
+    </nav>
+    <div class="sidebar-footer">
+        <div class="admin-info"><i class="fas fa-user-shield"></i><span id="adminEmail">Admin</span></div>
+        <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+</aside>

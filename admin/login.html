@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,292 +8,84 @@
     <link rel="icon" href="/images/favicon.png">
     <link rel="stylesheet" href="/admin/css/admin.css">
     <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            background: #0d0f14;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Animated gradient background */
-        body::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 20% 50%, rgba(243, 146, 0, .12) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, .08) 0%, transparent 55%),
-                radial-gradient(ellipse at 60% 80%, rgba(139, 92, 246, .07) 0%, transparent 55%);
-            pointer-events: none;
-        }
-
-        .login-card {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 420px;
-            padding: 48px 40px;
-            background: rgba(255, 255, 255, .04);
-            border: 1px solid rgba(255, 255, 255, .08);
-            border-radius: 20px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 32px 64px rgba(0, 0, 0, .4);
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 36px;
-        }
-
-        .login-header img {
-            height: 56px;
-            object-fit: contain;
-            filter: brightness(1.1);
-        }
-
-        .login-header h2 {
-            margin-top: 14px;
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: -.5px;
-        }
-
-        .login-header p {
-            margin-top: 4px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, .45);
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, .55);
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        input[type="email"],
-        input[type="password"],
-        input[type="text"] {
-            width: 100%;
-            padding: 13px 16px;
-            background: rgba(255, 255, 255, .06);
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: border-color .2s, background .2s;
-        }
-
-        .password-input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .password-input-wrapper input {
-            padding-right: 45px; /* Space for the toggle button */
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 12px;
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, .4);
-            font-size: 18px;
-            padding: 0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            transition: color .2s;
-        }
-
-        .toggle-password:hover {
-            color: rgba(255, 255, 255, .7);
-        }
-
-        .toggle-password:active {
-            transform: scale(0.95);
-        }
-
-        input:focus {
-            border-color: #f39200;
-            background: rgba(243, 146, 0, .06);
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, .25);
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 14px;
-            margin-top: 8px;
-            background: linear-gradient(135deg, #f39200, #e07800);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: opacity .2s, transform .15s;
-            letter-spacing: .02em;
-        }
-
-        .btn-login:hover {
-            opacity: .9;
-            transform: translateY(-1px);
-        }
-
-        .btn-login:active {
-            transform: translateY(0);
-        }
-
-        .btn-login:disabled {
-            opacity: .5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .error-msg {
-            display: none;
-            margin-top: 14px;
-            padding: 12px 16px;
-            background: rgba(239, 68, 68, .12);
-            border: 1px solid rgba(239, 68, 68, .3);
-            border-radius: 8px;
-            color: #fca5a5;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 22px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, .35);
-            text-decoration: none;
-            transition: color .2s;
-        }
-
-        .back-link:hover {
-            color: #f39200;
-        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        body{min-height:100vh;background:#0d0f14;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+        body::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%, rgba(243,146,0,.12) 0%, transparent 60%),radial-gradient(ellipse at 80% 20%, rgba(59,130,246,.08) 0%, transparent 55%),radial-gradient(ellipse at 60% 80%, rgba(139,92,246,.07) 0%, transparent 55%);pointer-events:none}
+        .login-card{position:relative;z-index:1;width:100%;max-width:420px;padding:48px 40px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;backdrop-filter:blur(12px);box-shadow:0 32px 64px rgba(0,0,0,.4)}
+        .login-header{text-align:center;margin-bottom:36px}
+        .login-header img{height:56px;object-fit:contain;filter:brightness(1.1)}
+        .login-header h2{margin-top:14px;font-size:22px;font-weight:700;color:#fff;letter-spacing:-.5px}
+        .login-header p{margin-top:4px;font-size:13px;color:rgba(255,255,255,.45)}
+        .form-group{margin-bottom:18px}
+        label{display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+        input{width:100%;padding:13px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:15px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,background .2s}
+        input:focus{border-color:#f39200;background:rgba(243,146,0,.06)}
+        input::placeholder{color:rgba(255,255,255,.25)}
+        .password-wrapper{position:relative;display:flex;align-items:center}
+        .password-wrapper input{padding-right:45px}
+        .toggle-password{position:absolute;right:12px;background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;padding:0;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:color .2s}
+        .toggle-password:hover{color:rgba(255,255,255,.7)}
+        .btn-login{width:100%;padding:14px;margin-top:8px;background:linear-gradient(135deg,#f39200,#e07800);border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.02em}
+        .btn-login:hover{opacity:.9;transform:translateY(-1px)}
+        .btn-login:active{transform:translateY(0)}
+        .btn-login:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .error-msg{display:none;margin-top:14px;padding:12px 16px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:#fca5a5;font-size:13px;text-align:center}
+        .back-link{display:block;text-align:center;margin-top:22px;font-size:13px;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
+        .back-link:hover{color:#f39200}
     </style>
 </head>
-
 <body>
     <div class="login-card">
         <div class="login-header">
             <img src="/images/logo.png" alt="SPAN">
             <h2>Admin Login</h2>
         </div>
-
         <form id="loginForm">
             <div class="form-group">
-                <label for="email">Email Address</label>
+                <label>Email Address</label>
                 <input type="email" id="email" placeholder="admin@example.com" required autocomplete="username">
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <div class="password-input-wrapper">
+                <label>Password</label>
+                <div class="password-wrapper">
                     <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
-                    <button type="button" class="toggle-password" id="togglePassword">
-                        <span class="show-icon">👁</span>
-                        <span class="hide-icon">👁‍🗨</span>
-                    </button>
+                    <button type="button" class="toggle-password" id="togglePassword">👁</button>
                 </div>
             </div>
             <button type="submit" class="btn-login" id="loginBtn">Sign In</button>
             <div class="error-msg" id="errorMsg"></div>
         </form>
-
-        <div class="back-to-site">
-            <a href="/index.html" class="back-link">← Back to website</a>
-        </div>
+        <a href="/index.html" class="back-link">← Back to website</a>
     </div>
-
     <script src="/js/config.js"></script>
     <script>
         const API = window.SPAN_API_URL;
+        if (localStorage.getItem('span_admin_token')) window.location.href = 'index.html';
 
-        // Redirect if already logged in
-        if (localStorage.getItem('span_admin_token')) {
-            window.location.href = 'index.html';
-        }
-
-        // ── Pre-warm: ping the Render backend on load ──────────────────────
         const statusEl = document.createElement('div');
         statusEl.style.cssText = 'text-align:center;font-size:12px;margin-top:14px;color:rgba(255,255,255,.35);';
         document.getElementById('loginForm').after(statusEl);
 
         async function checkBackend() {
             try {
-                statusEl.textContent = '⏳ Checking server connection…';
+                statusEl.textContent = '⏳ Checking server…';
                 const res = await fetch(`${API}/health`);
-                if (res.ok) {
-                    statusEl.textContent = '✅ Server connected';
-                    setTimeout(() => { statusEl.textContent = ''; }, 3000);
-                } else {
-                    statusEl.textContent = '⚠️ Server reachable but returned an error.';
-                }
-            } catch {
-                statusEl.innerHTML = `❌ Cannot reach server. The Render backend may be starting up — <a href="#" onclick="checkBackend();return false;" style="color:#f39200;">retry</a>.`;
-            }
+                if (res.ok) { statusEl.textContent = '✅ Server connected'; setTimeout(() => statusEl.textContent = '', 3000); }
+                else statusEl.textContent = '⚠️ Server error';
+            } catch { statusEl.innerHTML = `❌ Cannot reach server. <a href="#" onclick="checkBackend();return false;" style="color:#f39200;">retry</a>`; }
         }
         checkBackend();
 
-        // Toggle password visibility
         const togglePasswordBtn = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
-        if (togglePasswordBtn && passwordInput) {
-            // Set initial state (password hidden)
-            const showIcon = togglePasswordBtn.querySelector('.show-icon');
-            const hideIcon = togglePasswordBtn.querySelector('.hide-icon');
-            showIcon.style.display = 'inline';
-            hideIcon.style.display = 'none';
+        let showPassword = false;
+        togglePasswordBtn?.addEventListener('click', () => {
+            showPassword = !showPassword;
+            passwordInput.type = showPassword ? 'text' : 'password';
+            togglePasswordBtn.textContent = showPassword ? '👁‍🗨' : '👁';
+        });
 
-            togglePasswordBtn.addEventListener('click', () => {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                // Update icon
-                if (type === 'password') {
-                    showIcon.style.display = 'inline';
-                    hideIcon.style.display = 'none';
-                } else {
-                    showIcon.style.display = 'none';
-                    hideIcon.style.display = 'inline';
-                }
-            });
-        }
-
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        document.getElementById('loginForm').addEventListener('submit', async e => {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
             const errEl = document.getElementById('errorMsg');
@@ -306,32 +97,13 @@
             const password = document.getElementById('password').value;
 
             try {
-                const res = await fetch(`${API}/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-
+                const res = await fetch(`${API}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
                 const data = await res.json();
-                if (!res.ok) {
-                    errEl.textContent = data.error || 'Login failed. Check your email and password.';
-                    errEl.style.display = 'block';
-                } else {
-                    localStorage.setItem('span_admin_token', data.token);
-                    localStorage.setItem('span_admin_email', data.email);
-                    localStorage.setItem('span_admin_login_time', Date.now().toString());
-                    window.location.href = 'index.html';
-                }
-            } catch {
-                errEl.textContent = 'Cannot connect to the server. Please try again shortly.';
-                errEl.style.display = 'block';
-                checkBackend();
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Sign In';
-            }
+                if (!res.ok) { errEl.textContent = data.error || 'Login failed'; errEl.style.display = 'block'; }
+                else { localStorage.setItem('span_admin_token', data.token); localStorage.setItem('span_admin_email', data.email); localStorage.setItem('span_admin_login_time', Date.now().toString()); window.location.href = 'index.html'; }
+            } catch { errEl.textContent = 'Cannot connect to server'; errEl.style.display = 'block'; checkBackend(); }
+            finally { btn.disabled = false; btn.textContent = 'Sign In'; }
         });
     </script>
 </body>
-
 </html>

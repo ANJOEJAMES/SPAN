@@ -1,0 +1,47 @@
+<!-- New/Edit Post section --><section id="section-new-post" class="section">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3 id="formTitle">Create New Post</h3>
+            <button class="btn btn-ghost" onclick="showSection('posts')"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+        <form id="postForm">
+            <input type="hidden" id="editPostId">
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label>Title <span class="req">*</span></label>
+                    <input type="text" id="fTitle" placeholder="Enter post title…" required>
+                </div>
+                <div class="form-group full">
+                    <label>Excerpt <span class="req">*</span></label>
+                    <textarea id="fExcerpt" rows="2" placeholder="Short summary…" required></textarea>
+                </div>
+                <div class="form-group"><label>Author</label><input type="text" id="fAuthor" placeholder="SPAN Team"></div>
+                <div class="form-group"><label>Date</label><input type="date" id="fDate"></div>
+                <div class="form-group"><label>Category</label><select id="fCategory"><option value="">Loading…</option></select></div>
+                <div class="form-group">
+                    <label>Featured Image <span class="req">*</span></label>
+                    <div class="image-upload-box" id="imageUploadBox">
+                        <div class="upload-prompt" id="uploadPrompt"><i class="fas fa-cloud-upload-alt"></i><span>Click or drag image</span><small>JPEG, PNG, WEBP — max 10 MB</small></div>
+                        <img class="image-preview" id="imagePreview" src=""><input type="file" id="imageFile" accept="image/*" hidden>
+                        <div class="upload-progress" id="uploadProgress" style="display:none"><i class="fas fa-spinner fa-spin"></i> Uploading…</div>
+                    </div>
+                    <input type="text" id="fImage" placeholder="Or paste image URL" style="margin-top:8px">
+                </div>
+                <div class="form-group full">
+                    <label style="display:flex;justify-content:space-between;align-items:center;">
+                        <span>Content <span class="req">*</span></span>
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;color:var(--text);">
+                            <span>Write as Raw HTML</span>
+                            <div class="toggle-switch"><input type="checkbox" id="fIsHtml"><span class="toggle-slider"></span></div>
+                        </label>
+                    </label>
+                    <textarea id="fContent" rows="12" placeholder="Write content…" required></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-ghost" onclick="showSection('posts')">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-save"></i> Save Post</button>
+            </div>
+        </form>
+    </div>
+</section>

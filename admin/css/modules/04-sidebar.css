@@ -1,0 +1,55 @@
+/* 04-sidebar.css - Sidebar components */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 22px 20px;
+  border-bottom: 1px solid var(--border-light);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
+}
+
+.sidebar-logo img {
+  height: 38px;
+  object-fit: contain;
+}
+
+.sidebar-logo span {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: #5fa4a3;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 18px 12px;
+  overflow-y: auto;
+}
+
+.sidebar-footer {
+  padding: 18px;
+  border-top: 1px solid var(--border-light);
+  background: var(--surface-soft);
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  overflow: hidden;
+  font-style: italic;
+}
+
+.admin-info i {
+  color: var(--accent-gold);
+}
+
+.admin-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

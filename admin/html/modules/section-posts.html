@@ -1,0 +1,19 @@
+<!-- Posts section --><section id="section-posts" class="section active">
+    <div class="section-header">
+        <div class="search-row">
+            <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search posts…"></div>
+            <button class="btn btn-primary" onclick="showSection('new-post')"><i class="fas fa-plus"></i> New Post</button>
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat-card"><span class="stat-num" id="statTotal">—</span><span class="stat-label">Total Posts</span></div>
+        <div class="stat-card"><span class="stat-num" id="statLikes">—</span><span class="stat-label">Total Likes</span></div>
+        <div class="stat-card"><span class="stat-num" id="statComments">—</span><span class="stat-label">Total Comments</span></div>
+    </div>
+    <div class="table-wrap">
+        <table class="posts-table">
+            <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Date</th><th>Likes</th><th>Comments</th><th>Actions</th></tr></thead>
+            <tbody id="postsTableBody"><tr><td colspan="7" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading…</td></tr></tbody>
+        </table>
+    </div>
+</section>

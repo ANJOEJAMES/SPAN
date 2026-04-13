@@ -1,0 +1,26 @@
+<!-- Categories section --><section id="section-categories" class="section">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div class="form-card" style="flex:1;min-width:300px;">
+            <div class="form-card-header"><h3>Blog Categories</h3></div>
+            <form id="addBlogCatForm" style="display:flex;gap:10px;margin-bottom:20px;">
+                <input type="text" id="newBlogCatName" placeholder="New category…" required style="flex:1;">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+            <table class="data-table">
+                <thead><tr><th>Name</th><th style="width:80px;text-align:center;">Uses</th><th style="width:60px;"></th></tr></thead>
+                <tbody id="blogCategoriesTableBody"><tr><td colspan="3" class="loading-row">Loading…</td></tr></tbody>
+            </table>
+        </div>
+        <div class="form-card" style="flex:1;min-width:300px;">
+            <div class="form-card-header"><h3>Gallery Categories</h3></div>
+            <form id="addGalleryCatForm" style="display:flex;gap:10px;margin-bottom:20px;">
+                <input type="text" id="newGalleryCatName" placeholder="New category…" required style="flex:1;">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+            <table class="data-table">
+                <thead><tr><th>Name</th><th style="width:80px;text-align:center;">Uses</th><th style="width:60px;"></th></tr></thead>
+                <tbody id="galleryCategoriesTableBody"><tr><td colspan="3" class="loading-row">Loading…</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,41 @@
+<!-- Gallery sections --><section id="section-gallery" class="section">
+    <div class="section-header">
+        <div class="search-row">
+            <div class="search-box"><i class="fas fa-search"></i><input type="text" id="gallerySearchInput" placeholder="Search photos…"></div>
+            <button class="btn btn-primary" onclick="showSection('upload-photo')"><i class="fas fa-cloud-upload-alt"></i> Upload Photo</button>
+        </div>
+    </div>
+    <div class="stats-row"><div class="stat-card"><span class="stat-num" id="statTotalPhotos">—</span><span class="stat-label">Total Photos</span></div></div>
+    <div id="galleryGrid" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:8px;"></div>
+</section>
+
+<section id="section-upload-photo" class="section">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3>Upload Photo</h3>
+            <button class="btn btn-ghost" onclick="showSection('gallery')"><i class="fas fa-arrow-left"></i> Back</button>
+        </div>
+        <form id="uploadPhotoForm">
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label>Photo <span class="req">*</span></label>
+                    <input type="file" id="gPhotoFile" accept="image/*" required>
+                    <img id="gPhotoPreview" src="" style="margin-top:10px;max-height:200px;border-radius:10px;display:none;">
+                </div>
+                <div class="form-group full"><label>Caption</label><input type="text" id="gPhotoTitle" placeholder="e.g. Workshop at Kerala"></div>
+                <div class="form-group full">
+                    <label>Category <span class="req">*</span></label>
+                    <select id="gPhotoTag" required><option value="">Loading…</option></select>
+                </div>
+            </div>
+            <div id="uploadProgress" style="display:none;margin-bottom:16px;">
+                <div style="background:#e8e8e8;border-radius:8px;overflow:hidden;height:8px;"><div id="uploadProgressBar" style="height:100%;background:#e8823a;width:0%;transition:width .3s;"></div></div>
+                <p id="uploadStatus" style="font-size:13px;color:#888;margin-top:6px;">Uploading…</p>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-ghost" onclick="showSection('gallery')">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="uploadPhotoBtn"><i class="fas fa-cloud-upload-alt"></i> Upload & Save</button>
+            </div>
+        </form>
+    </div>
+</section>

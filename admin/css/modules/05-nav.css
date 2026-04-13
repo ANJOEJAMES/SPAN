@@ -1,0 +1,107 @@
+/* 05-nav.css - Navigation items and groups */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-medium);
+  text-decoration: none;
+  transition: all .2s ease;
+  cursor: pointer;
+  margin-bottom: 3px;
+  border: 1px solid transparent;
+}
+
+.nav-item:hover {
+  background: var(--surface-soft);
+  color: var(--text-dark);
+  border-color: var(--border-light);
+}
+
+.nav-item.active {
+  background: var(--surface);
+  color: var(--accent-wine);
+  border-color: var(--border-classic);
+  box-shadow: var(--shadow-soft);
+}
+
+.nav-item i {
+  width: 18px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.nav-item.active i {
+  color: var(--accent-wine);
+}
+
+.nav-group {
+  margin-bottom: 6px;
+}
+
+.nav-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all .2s ease;
+  text-align: left;
+}
+
+.nav-group-header:hover {
+  background: var(--surface-soft);
+  border-color: var(--border-light);
+}
+
+.nav-group-header span {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: var(--font-heading);
+}
+
+.nav-group-header span i {
+  width: 18px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--accent-wine);
+}
+
+.nav-chevron {
+  font-size: 10px;
+  transition: transform .25s;
+  color: var(--text-muted);
+}
+
+.nav-group.open .nav-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-group-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .3s ease;
+}
+
+.nav-group.open .nav-group-body {
+  max-height: 200px;
+}
+
+.nav-sub {
+  padding-left: 42px;
+  font-size: 13px;
+  font-weight: 400;
+}

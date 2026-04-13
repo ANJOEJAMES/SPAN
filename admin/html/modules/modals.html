@@ -1,0 +1,31 @@
+<!-- Modals --><div class="modal-overlay" id="deleteModal">
+    <div class="modal"><div class="modal-icon"><i class="fas fa-trash-alt"></i></div>
+        <h3>Delete Post?</h3><p>Permanently delete post and comments. Undo available.</p>
+        <div class="modal-actions">
+            <button class="btn btn-ghost" onclick="closeDeleteModal()">Cancel</button>
+            <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="deletePhotoModal">
+    <div class="modal"><div class="modal-icon"><i class="fas fa-image"></i></div>
+        <h3>Delete Photo?</h3><p>Permanently delete photo and Cloudinary image.</p>
+        <div class="modal-actions">
+            <button class="btn btn-ghost" onclick="closeDeletePhotoModal()">Cancel</button>
+            <button class="btn btn-danger" id="confirmDeletePhotoBtn">Delete</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="deleteTestimonialModal">
+    <div class="modal"><div class="modal-icon"><i class="fas fa-trash-alt"></i></div>
+        <h3>Delete Testimonial?</h3><p>Permanently delete testimonial.</p>
+        <div class="modal-actions">
+            <button class="btn btn-ghost" onclick="closeDeleteTestimonialModal()">Cancel</button>
+            <button class="btn btn-danger" id="confirmDeleteTestimonialBtn">Delete</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
