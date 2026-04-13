@@ -1,2 +1,2 @@
-// Global Configuration — Backend hosted on Render
-window.SPAN_API_URL = 'https://span-website.onrender.com/api';
+// Global Configuration — Backend hosted on localhost
+window.SPAN_API_URL = 'http://localhost:3000/api';

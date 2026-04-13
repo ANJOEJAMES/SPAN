@@ -61,7 +61,8 @@ const GROUP_MAP = {
     posts: 'grp-blog', 'new-post': 'grp-blog',
     gallery: 'grp-gallery', 'upload-photo': 'grp-gallery',
     testimonials: 'grp-testimonials', 'new-testimonial': 'grp-testimonials',
-    stats: 'grp-stats'
+    stats: 'grp-stats',
+    subscriptions: 'grp-subscriptions'
 };
 
 function toggleGroup(id) {
@@ -92,7 +93,8 @@ function showSection(name) {
         'upload-photo': 'Upload Photo',
         testimonials: 'Testimonials',
         'new-testimonial': 'Add Testimonial',
-        stats: 'Site Stats'
+        stats: 'Site Stats',
+        subscriptions: 'Subscriptions'
     };
     document.getElementById('pageTitle').textContent = titles[name] || 'Admin';
 
@@ -105,6 +107,7 @@ function showSection(name) {
     if (name === 'gallery') loadGallery();
     if (name === 'testimonials') loadTestimonials();
     if (name === 'stats') loadStats();
+    if (name === 'subscriptions') loadSubscriptions();
 
     // Always refresh categories when opening forms or category management
     if (['new-post', 'upload-photo', 'categories', 'gallery'].includes(name)) {
@@ -1052,3 +1055,57 @@ document.getElementById('saveStatsBtn')?.addEventListener('click', async () => {
         btn.innerHTML = '<i class="fas fa-save"></i> Save Stats';
     }
 });
+
+// ── Subscriptions Functions ─────────────────────────────────────────────
+async function loadSubscriptions() {
+    const tbody = document.getElementById('subscriptionsTableBody');
+    tbody.innerHTML = '<tr><td colspan="3" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>';
+    
+    try {
+        const res = await fetch(`${API}/newsletter/subscribers`);
+        const subscribers = await res.json();
+        
+        if (subscribers.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" class="loading-row">No subscribers yet</td></tr>';
+            return;
+        }
+        
+        tbody.innerHTML = subscribers.map(sub => `
+            <tr>
+                <td style="font-weight: 500;">${sub.email}</td>
+                <td>${new Date(sub.created_at).toLocaleDateString()}</td>
+                <td>
+                    <button class="btn btn-sm btn-delete" onclick="deleteSubscriber(${sub.id}, '${sub.email}')" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    } catch (e) {
+        showToast('Failed to load subscribers', 'error');
+        tbody.innerHTML = '<tr><td colspan="3" class="loading-row">Error loading data</td></tr>';
+    }
+}
+
+async function deleteSubscriber(id, email) {
+    if (!confirm(`Delete subscriber: ${email}?`)) return;
+    
+    try {
+        const url = `${API}/newsletter/subscribers/${id}`;
+        console.log('Deleting from:', url);
+        const res = await fetch(url, {
+            method: 'DELETE'
+        });
+        console.log('Delete response:', res.status);
+        if (res.ok) {
+            showToast('Subscriber deleted');
+            loadSubscriptions();
+        } else {
+            const err = await res.json();
+            showToast(err.error || 'Failed to delete subscriber', 'error');
+        }
+    } catch (e) {
+        console.error('Delete error:', e);
+        showToast('Error deleting subscriber: ' + e.message, 'error');
+    }
+}
