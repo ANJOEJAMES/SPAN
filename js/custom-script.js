@@ -2,6 +2,10 @@
 
 	"use strict";
 
+	document.on("contextmenu", function(e) {
+		e.preventDefault();
+	});
+
 	//Hide Loading Box (Preloader)
 	function handlePreloader() {
 		if($('.preloader').length){

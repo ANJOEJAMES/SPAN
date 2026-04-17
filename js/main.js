@@ -14,6 +14,10 @@
 (function () {
     'use strict';
 
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    }, false);
+
     const API = window.SPAN_API_URL || '/api';
 
     // ── Newsletter subscription ───────────────────────────────────────────────
