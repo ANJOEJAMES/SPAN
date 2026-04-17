@@ -327,7 +327,7 @@
                     <!--Column-->
                     <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp">
                         <div class="inner-box">
-                            <div class="count-box"><span class="count-text" data-speed="3000" data-stop="98520">0</span></div>
+                            <div class="count-box"><span class="count-text" data-key="people_helped" data-speed="3000" data-stop="0">0</span></div>
                             <div class="counter-title">People Helped</div>
                         </div>
                     </div>
@@ -335,7 +335,7 @@
                     <!--Column-->
                     <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="400ms">
                         <div class="inner-box">
-                            <div class="count-box"><span class="count-text" data-speed="1500" data-stop="306">0</span></div>
+                            <div class="count-box"><span class="count-text" data-key="volunteers_trained" data-speed="1500" data-stop="0">0</span></div>
                             <div class="counter-title">Volunteers Trained</div>
                         </div>
                     </div>
@@ -343,7 +343,7 @@
                     <!--Column-->
                     <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="800ms">
                         <div class="inner-box">
-                            <div class="count-box"><span class="count-text" data-speed="1500" data-stop="84">0</span></div>
+                            <div class="count-box"><span class="count-text" data-key="peer_counsellors" data-speed="1500" data-stop="0">0</span></div>
                             <div class="counter-title">Peer Support Counsellors Trained</div>
                         </div>
                     </div>
@@ -351,7 +351,7 @@
                     <!--Column-->
                     <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="1200ms">
                         <div class="inner-box">
-                            <div class="count-box"><span class="count-text" data-speed="3000" data-stop="1369">0</span></div>
+                            <div class="count-box"><span class="count-text" data-key="workshops_held" data-speed="3000" data-stop="0">0</span></div>
                             <div class="counter-title">Training Workshops Held</div>
                         </div>
                     </div>
@@ -615,8 +615,29 @@ Rajkot, Gujarat, INDIA 360005</li>
 
 <script src="js/scrollbar.js"></script>
 <script src="js/validate.js"></script>
+<script src="js/config.js"></script>
 <script src="js/paroller.js"></script>
 <script src="js/custom-script.js"></script>
+
+<script>
+        // ── Dynamic Stats ───────────────────────────────────────────────────────
+        async function loadStats() {
+            try {
+                const res = await fetch(`${window.SPAN_API_URL}/stats`, { headers: { 'Bypass-Tunnel-Reminder': 'true' } });
+                if (!res.ok) return;
+                const stats = await res.json();
+                const statMap = {};
+                stats.forEach(s => { statMap[s.key] = s.value; });
+                document.querySelectorAll('.count-text[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    if (statMap[key] !== undefined) {
+                        el.setAttribute('data-stop', statMap[key]);
+                    }
+                });
+            } catch (e) { /* silently ignore */ }
+        }
+        loadStats();
+</script>
 
 </body>
 </html>
